@@ -2,6 +2,7 @@ import React, { type ReactNode } from "react";
 
 type SearchButtonProps = {
   children: ReactNode;
+  searchKey: string;
 }
 
 type SearchButtonState = {
@@ -20,6 +21,7 @@ export class SearchButton extends React.Component <SearchButtonProps, SearchButt
     this.setState({
       count: this.state.count + 1,
     })
+    // console.log(this.props.searchKey)
   }
 
   render () {

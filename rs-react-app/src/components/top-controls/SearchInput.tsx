@@ -4,6 +4,8 @@ type SearchInputProps = {
   id: string;
   type: "string";
   placeholder: string;
+  initialValue: string;
+  onChange: (value:string)=>void;
 }
 
 type SearchInputState = {
@@ -15,13 +17,14 @@ export class SearchInput extends React.Component<SearchInputProps, SearchInputSt
   constructor(props:SearchInputProps){
     super(props);
     this.state = {
-      value: localStorage.getItem('last-search') ?? ''
+      value: props.initialValue
     }
   }
 
   handleInput = (event: ChangeEvent<HTMLInputElement>):void => {
-    this.setState({value: event.target.value})
-    localStorage.setItem("last-search", event.target.value)
+    this.setState({value: event.target.value});
+    localStorage.setItem("last-search", event.target.value);
+    this.props.onChange(event.target.value);
   }
 
   render () {
