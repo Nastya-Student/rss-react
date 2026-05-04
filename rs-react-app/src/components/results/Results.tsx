@@ -6,16 +6,15 @@ type ResultsProps = {
   items: string[];
 }
 
-type ResultsState = {
-  items: string[];
-}
 
-export class Results extends React.Component <ResultsProps, ResultsState>{
+
+export class Results extends React.Component <ResultsProps>{
   constructor (props: ResultsProps){
     super(props);
-    this.state = {items: props.items}
   }
+
   render () {
+    // console.log('from results: ' + this.props.items)
     return <div className={this.props.className}>
       <ResultList items={this.props.items}>Results</ResultList>
     </div>

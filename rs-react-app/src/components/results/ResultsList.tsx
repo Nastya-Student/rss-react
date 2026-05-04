@@ -1,18 +1,14 @@
 import React, { type ReactNode } from "react";
 
-type ResultListState = {
-  items: string[];
-}
 
 type ResultListProps = {
   children: ReactNode;
   items: string[];
 }
 
-export class ResultList extends React.Component <ResultListProps, ResultListState>{
+export class ResultList extends React.Component <ResultListProps>{
   constructor(props: ResultListProps){
     super(props);
-    this.state = this.props;
   }
 
 
@@ -23,7 +19,7 @@ export class ResultList extends React.Component <ResultListProps, ResultListStat
               <div>Name</div>
               <div>Description</div>
             </li>
-            {this.state.items.map((item, index) => <li key={index}>{item}</li>)}
+            {this.props.items.map((item, index) => <li key={index}>{item}</li>)}
     </ul>
   }
 }
