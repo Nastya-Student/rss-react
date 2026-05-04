@@ -11,9 +11,9 @@ import { ErrorButton } from './components/ErrorButton'
 export class App extends React.Component {
   render(){
     return <main>
-      <TopControls></TopControls>
-      <Results></Results>
-      <ErrorButton></ErrorButton>
+      <TopControls className='block'></TopControls>
+      <Results className='block'></Results>
+      <ErrorButton>Error</ErrorButton>
     </main>
   }
 }

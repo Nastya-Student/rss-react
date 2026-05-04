@@ -3,14 +3,14 @@ import { SearchButton } from "./SearchButton";
 import { SearchInput } from "./SearchInput";
 
 type TopControlsProps = {
-  
+  className: string;
 }
 
-export class TopControls extends React.Component {
+export class TopControls extends React.Component <TopControlsProps>{
   render () {
-    return <div>
+    return <div className={this.props.className}>
       <SearchInput></SearchInput>
-      <SearchButton  class={"button"}>hello</SearchButton>
+      <SearchButton>Search</SearchButton>
     </div>
   }
 }

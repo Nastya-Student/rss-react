@@ -2,7 +2,6 @@ import React, { type ReactNode } from "react";
 
 type SearchButtonProps = {
   children: ReactNode;
-  class: string;
 }
 
 type SearchButtonState = {
@@ -24,6 +23,6 @@ export class SearchButton extends React.Component <SearchButtonProps, SearchButt
   }
 
   render () {
-    return <button onClick={this.onClickBtn} className={this.props.class}>Search: {this.state.count}{this.props.children}</button>
+    return <button onClick={this.onClickBtn}>{this.state.count}{this.props.children}</button>
   }
 }

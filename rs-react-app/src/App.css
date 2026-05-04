@@ -183,6 +183,42 @@
   }
 }
 
-.button {
+button {
   width: fit-content;
+  padding: 0.5rem;
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+main{
+  height: 100vh;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-direction: column;
+  padding: 5rem;
+}
+
+.block {
+  display: flex;
+  padding: 1rem;
+  justify-content: space-between;
+  gap: 2rem;
+  border: 1px solid white;
+  min-width: 40%;
+}
+
+.results-list{
+  list-style: none;
+  width: 100%;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
