@@ -14,7 +14,6 @@ export class Results extends React.Component <ResultsProps>{
   }
 
   render () {
-    // console.log('from results: ' + this.props.items)
     return <div className={this.props.className}>
       <ResultList items={this.props.items}>Results</ResultList>
     </div>
