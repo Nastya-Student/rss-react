@@ -5,11 +5,28 @@ import React from 'react'
 import { TopControls } from './components/top-controls/TopControls'
 import { ErrorButton } from './components/ErrorButton'
 
-export class App extends React.Component {
+type AppState = {
+  items: string[];
+}
+
+type AppProps = object
+
+export class App extends React.Component <AppProps, AppState> {
+
+  constructor(props:AppProps){
+    super(props);
+    this.state = {items: []};
+  }
+  
+handleItems = (items: string []) => {
+  this.setState({items: items});
+} 
+
   render(){
+    console.log(this.state.items)
     return <main>
-      <TopControls className='block'></TopControls>
-      <Results className='block' items={["one", "two", "three"]}></Results>
+      <TopControls className='block' transferItems={this.handleItems}></TopControls>
+      <Results className='block' items={this.state.items}></Results>
       <ErrorButton>Error</ErrorButton>
     </main>
   }

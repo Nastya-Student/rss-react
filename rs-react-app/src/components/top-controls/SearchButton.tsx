@@ -1,30 +1,24 @@
 import React, { type ReactNode } from "react";
+import { getItems } from "../../api/getItems";
 
 type SearchButtonProps = {
   children: ReactNode;
   searchKey: string;
+  onGetItems: (items: string[]) => void;
 }
 
-type SearchButtonState = {
-  count: number;
-}
 
-export class SearchButton extends React.Component <SearchButtonProps, SearchButtonState> {
+
+export class SearchButton extends React.Component <SearchButtonProps> {
   constructor (props: SearchButtonProps) {
     super (props);
-    this.state = {
-      count:0,
-    }
   }
 
   onClickBtn = () =>{
-    this.setState({
-      count: this.state.count + 1,
-    })
-    // console.log(this.props.searchKey)
+    getItems(this.props.searchKey).then((items)=>this.props.onGetItems(items));
   }
 
   render () {
-    return <button onClick={this.onClickBtn}>{this.state.count}{this.props.children}</button>
+    return <button onClick={this.onClickBtn}>{this.props.children}</button>
   }
 }

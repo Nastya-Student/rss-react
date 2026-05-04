@@ -13,7 +13,7 @@ type ResultsState = {
 export class Results extends React.Component <ResultsProps, ResultsState>{
   constructor (props: ResultsProps){
     super(props);
-    this.state = this.props;
+    this.state = {items: props.items}
   }
   render () {
     return <div className={this.props.className}>
