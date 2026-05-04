@@ -6,14 +6,13 @@ type ResultListState = {
 
 type ResultListProps = {
   children: ReactNode;
+  items: string[];
 }
 
 export class ResultList extends React.Component <ResultListProps, ResultListState>{
   constructor(props: ResultListProps){
     super(props);
-    this.state = {
-      items: ["one", "two", "three"],
-    }
+    this.state = this.props;
   }
 
 

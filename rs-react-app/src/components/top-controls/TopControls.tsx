@@ -9,7 +9,7 @@ type TopControlsProps = {
 export class TopControls extends React.Component <TopControlsProps>{
   render () {
     return <div className={this.props.className}>
-      <SearchInput></SearchInput>
+      <SearchInput id={"search-input"} type={"string"} placeholder={"choose smth"}></SearchInput>
       <SearchButton>Search</SearchButton>
     </div>
   }

@@ -3,12 +3,21 @@ import { ResultList } from "./ResultsList";
 
 type ResultsProps = {
   className: string;
+  items: string[];
 }
 
-export class Results extends React.Component <ResultsProps>{
+type ResultsState = {
+  items: string[];
+}
+
+export class Results extends React.Component <ResultsProps, ResultsState>{
+  constructor (props: ResultsProps){
+    super(props);
+    this.state = this.props;
+  }
   render () {
     return <div className={this.props.className}>
-      <ResultList>Results</ResultList>
+      <ResultList items={this.props.items}>Results</ResultList>
     </div>
   }
 }
