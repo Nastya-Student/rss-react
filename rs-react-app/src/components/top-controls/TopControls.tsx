@@ -38,7 +38,7 @@ export class TopControls extends React.Component<
       <div className={this.props.className}>
         <SearchInput
           id={'search-input'}
-          type={'string'}
+          type={'text'}
           placeholder={'choose smth'}
           initialValue={this.state.searchKey}
           onChange={this.handleInputValue}
