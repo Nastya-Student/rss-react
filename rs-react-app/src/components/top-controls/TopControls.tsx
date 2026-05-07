@@ -1,10 +1,11 @@
 import React from "react";
 import { SearchButton } from "./SearchButton";
 import { SearchInput } from "./SearchInput";
+import type { ResponseItem } from "../../api/interfaces/Response";
 
 type TopControlsProps = {
   className: string;
-  transferItems: (items:string [])=>void;
+  transferItems: (items:ResponseItem [])=>void;
 }
 
 type TopControlState = {
@@ -23,7 +24,7 @@ export class TopControls extends React.Component <TopControlsProps, TopControlSt
     this.setState({searchKey: value});
   } 
 
-  handleGetItems = (items: string []): void => {
+  handleGetItems = (items: ResponseItem []): void => {
     this.props.transferItems(items);
   }
 

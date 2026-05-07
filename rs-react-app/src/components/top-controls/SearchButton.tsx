@@ -1,10 +1,11 @@
 import React, { type ReactNode } from "react";
 import { getItems } from "../../api/getItems";
+import type { ResponseItem } from "../../api/interfaces/Response";
 
 type SearchButtonProps = {
   children: ReactNode;
   searchKey: string;
-  onGetItems: (items: string[]) => void;
+  onGetItems: (items: ResponseItem[]) => void;
 }
 
 

@@ -4,9 +4,10 @@ import { Results } from './components/results/Results'
 import React from 'react'
 import { TopControls } from './components/top-controls/TopControls'
 import { ErrorButton } from './components/ErrorButton'
+import type { ResponseItem } from './api/interfaces/Response'
 
 type AppState = {
-  items: string[];
+  items: ResponseItem[];
 }
 
 type AppProps = object
@@ -18,7 +19,7 @@ export class App extends React.Component <AppProps, AppState> {
     this.state = {items: []};
   }
   
-handleItems = (items: string []) => {
+handleItems = (items: ResponseItem []) => {
   this.setState({items: items});
 } 
 

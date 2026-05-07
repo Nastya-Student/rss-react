@@ -1,12 +1,11 @@
 import React from "react";
 import { ResultList } from "./ResultsList";
+import type { ResponseItem } from "../../api/interfaces/Response";
 
 type ResultsProps = {
   className: string;
-  items: string[];
+  items: ResponseItem[];
 }
-
-
 
 export class Results extends React.Component <ResultsProps>{
   constructor (props: ResultsProps){
