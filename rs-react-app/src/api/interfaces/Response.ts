@@ -1,9 +1,6 @@
-import type { Animal } from "./Animal";
-
-export interface AnimalResponse {
-  page: Page;
-  sort: Sort;
-  animals: Animal [];
+export type ResponseItem = {
+  name: string;
+  description: string [];
 }
 
 export type Page = {
@@ -18,5 +15,11 @@ export type Page = {
 
 export type Sort = {
   clauses: number [];
+}
+
+export interface CommonResponse <T> {
+  page: Page;
+  sort: Sort;
+  animals: T [];
 }
 
