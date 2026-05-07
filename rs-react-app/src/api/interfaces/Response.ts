@@ -1,7 +1,7 @@
 export type ResponseItem = {
   name: string;
-  description: string [];
-}
+  description: string[];
+};
 
 export type Page = {
   pageNumber: number;
@@ -11,15 +11,14 @@ export type Page = {
   totalPages: number;
   firstPage: boolean;
   lastPage: boolean;
-}
+};
 
 export type Sort = {
-  clauses: number [];
-}
+  clauses: number[];
+};
 
-export interface CommonResponse <T> {
+export interface CommonResponse<T> {
   page: Page;
   sort: Sort;
-  animals: T [];
+  animals: T[];
 }
-

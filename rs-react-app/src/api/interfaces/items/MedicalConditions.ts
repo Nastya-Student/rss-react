@@ -1,4 +1,4 @@
 export interface MedicalCondition {
-  name:  string,
-  psychologicalCondition:  boolean, 
+  name: string;
+  psychologicalCondition: boolean;
 }

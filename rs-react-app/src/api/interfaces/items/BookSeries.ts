@@ -1,11 +1,11 @@
 export interface BookSeries {
-  title:  string,
-  publishedYearFrom:  number,
-  publishedMonthFrom:  number,
-  publishedYearTo:  number,
-  publishedMonthTo:  number,
-  numberOfBooks:  number,
-  yearFrom:  number,
-  yearTo:  number,
-  miniseries:  boolean 
+  title: string;
+  publishedYearFrom: number;
+  publishedMonthFrom: number;
+  publishedYearTo: number;
+  publishedMonthTo: number;
+  numberOfBooks: number;
+  yearFrom: number;
+  yearTo: number;
+  miniseries: boolean;
 }

@@ -1,5 +1,5 @@
 export interface Performer {
-  name:  string,
-  gender:  string,
-  voyPerformer:  boolean 
+  name: string;
+  gender: string;
+  voyPerformer: boolean;
 }

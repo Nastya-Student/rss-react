@@ -1,4 +1,4 @@
-export const BASE_URL = "https://stapi.co/api/v1/rest/";
+export const BASE_URL = 'https://stapi.co/api/v1/rest/';
 
 export const ITEMS = {
   animals: 'animals',
@@ -40,5 +40,5 @@ export const ITEMS = {
   tradingCardSets: 'trading card sets',
   videoGames: 'video games',
   videoReleases: 'video releases',
-  weapons: 'weapons'
-}
+  weapons: 'weapons',
+};

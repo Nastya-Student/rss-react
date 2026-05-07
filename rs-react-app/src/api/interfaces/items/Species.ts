@@ -1,13 +1,13 @@
 export interface Species {
-  name:  string,
+  name: string;
   homeworld: {
-    name: string,
-  }
-  
+    name: string;
+  };
+
   quadrant: {
-    name: string,
-  }
-  
-  humanoidSpecies:  boolean,
-  unnamedSpecies:  boolean 
+    name: string;
+  };
+
+  humanoidSpecies: boolean;
+  unnamedSpecies: boolean;
 }

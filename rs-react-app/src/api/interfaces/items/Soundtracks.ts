@@ -1,5 +1,5 @@
 export interface Soundtrack {
-  title:  string,
-  releaseDate:  string,
-  length:  number 
+  title: string;
+  releaseDate: string;
+  length: number;
 }

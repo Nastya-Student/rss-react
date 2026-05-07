@@ -1,6 +1,6 @@
 export interface Conflict {
-  name:  string,
-  yearFrom:  number,
-  yearTo:  number,
-  earthConflict:  boolean
+  name: string;
+  yearFrom: number;
+  yearTo: number;
+  earthConflict: boolean;
 }

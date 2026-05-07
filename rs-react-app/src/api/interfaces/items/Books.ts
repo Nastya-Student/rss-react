@@ -1,7 +1,7 @@
 export interface Book {
-  title:  string,
-  publishedYear:  number,
-  publishedMonth:  number,
-  numberOfPages:  number,
-  referenceBook:  boolean 
+  title: string;
+  publishedYear: number;
+  publishedMonth: number;
+  numberOfPages: number;
+  referenceBook: boolean;
 }

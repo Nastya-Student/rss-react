@@ -1,6 +1,6 @@
 export interface Character {
-  name:  string,
-  gender:  string,
-  yearOfBirth:  number,
-  alternateReality:  boolean, 
+  name: string;
+  gender: string;
+  yearOfBirth: number;
+  alternateReality: boolean;
 }

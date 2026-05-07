@@ -1,8 +1,8 @@
 export interface Location {
-  name:  string,
-  earthlyLocation:  boolean,
-  road:  boolean,
-  structure:  boolean, 
-  establishment:  boolean,
-  alternateReality:  boolean,
+  name: string;
+  earthlyLocation: boolean;
+  road: boolean;
+  structure: boolean;
+  establishment: boolean;
+  alternateReality: boolean;
 }

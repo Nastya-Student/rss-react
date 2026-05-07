@@ -1,6 +1,6 @@
 export interface Food {
-  name:  string,
-earthlyOrigin:  boolean,
-beverage:  boolean,
-alcoholicBeverage:  boolean,
+  name: string;
+  earthlyOrigin: boolean;
+  beverage: boolean;
+  alcoholicBeverage: boolean;
 }
