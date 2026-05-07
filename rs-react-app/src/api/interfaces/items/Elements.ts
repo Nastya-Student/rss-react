@@ -1,4 +1,4 @@
-export interface Element {
+export interface ElementI {
   name: string;
   symbol: string;
   atomicWeight: number;
