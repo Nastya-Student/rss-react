@@ -25,7 +25,6 @@ export class SearchInput extends React.Component<
 
   handleInput = (event: ChangeEvent<HTMLInputElement>): void => {
     this.setState({ value: event.target.value });
-    localStorage.setItem('last-search', event.target.value);
     this.props.onChange(event.target.value);
   };
 
