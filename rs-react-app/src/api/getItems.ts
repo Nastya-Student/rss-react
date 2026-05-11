@@ -155,820 +155,551 @@ const createEndpoint = (listName: string): string => {
   return list.join('').slice(0, -1);
 };
 
-const getAnimals = async (listName: string): Promise<ResponseItem[]> => {
+const getResponseItems = <T extends { name?: string; title?: string }>(
+  data: T[]
+): ResponseItem[] => {
   const values: ResponseItem[] = [];
+
+  data.forEach((item) => {
+    const value: ResponseItem = { name: '', description: [] };
+    if (Object.keys(item).find((key) => key === 'name')) {
+      if (!item.name) {
+        throw new Error();
+      }
+      value.name = item.name;
+    } else if (Object.keys(item).find((key) => key === 'title')) {
+      if (!item.title) {
+        throw new Error();
+      }
+      value.name = item.title;
+    }
+    value.description = invokeDescriptions(item);
+    values.push(value);
+  });
+
+  return values;
+};
+
+const invokeDescriptions = <T extends Record<string, unknown>>(
+  item: T
+): string[] => {
+  return Object.entries(item)
+    .filter(([, value]) => value)
+    .filter(([key]) => key !== 'name' && key !== 'title' && key !== 'uid')
+    .map(
+      ([key, value]) =>
+        `${key}: ${value instanceof Object ? (value as { name?: string }).name : value}`
+    );
+};
+
+// const getAnimals = async (listName: string): Promise<ResponseItem[]> => {
+//   try {
+//     const response = (await (
+//       await getResponse(listName)
+//     ).json()) as AnimalResponse;
+//     const property:Animal [] = Object.entries(response).filter(([k,]) => k !== 'sort' && k !== 'page').map(([, v]) => v);
+//     console.log(property)
+//     return getResponseItems(property);
+//   } catch (error) {
+//     console.error(error);
+//   }
+//   throw new Error();
+// };
+
+const getAnimals = async (listName: string): Promise<ResponseItem[]> => {
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as AnimalResponse;
-    response.animals.forEach((animal) => {
-      const animalValue: ResponseItem = {
-        name: animal.name,
-        description: [`earth animal: ${String(animal.earthAnimal)}`],
-      };
-      values.push(animalValue);
-    });
+    return getResponseItems(response.animals);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
 
 const getAstronomicalObject = async (
   listName: string
 ): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as AstronomicalObjectResponse;
-    response.astronomicalObjects.forEach((astronomicalObject) => {
-      //
-      const value: ResponseItem = {
-        name: astronomicalObject.name,
-        description: [
-          `type: ${String(astronomicalObject.astronomicalObjectType)}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.astronomicalObjects);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
 
 const getBookCollections = async (
   listName: string
 ): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as BookCollectionResponse;
-    response.bookCollections.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [
-          `pages: ${String(item.numberOfPages)}`,
-          `published year: ${item.publishedYear}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.bookCollections);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getBooks = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as BookResponse;
-    response.books.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [
-          `pages: ${String(item.numberOfPages)}`,
-          `published year: ${item.publishedYear}`,
-          `reference book: ${item.referenceBook}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.books);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
 
 const getBookSeries = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as BookSeriesResponse;
-    response.bookSeries.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [
-          `number of book: ${String(item.numberOfBooks)}`,
-          `published year from: ${item.publishedYearFrom}`,
-          `published year to: ${item.publishedYearTo}`,
-          `published year from: ${item.miniseries}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.bookSeries);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
 
 const getComics = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as ComicResponse;
-    response.comics.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [
-          `pages: ${String(item.numberOfPages)}`,
-          `published year: ${item.publishedYear}`,
-          `stardata to: ${item.stardateTo}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.comics);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
 
 const getConflicts = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as ConflictsResponse;
-    response.conflicts.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [
-          `earth conflict: ${String(item.earthConflict)}`,
-          `year from: ${item.yearFrom}`,
-          `year to: ${item.yearTo}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.conflicts);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
 
 const getCharacters = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as CharacterResponse;
-    response.characters.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [
-          `gender: ${String(item.gender)}`,
-          `alternate reality: ${item.alternateReality}`,
-          `year of birth: ${item.yearOfBirth}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.characters);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getComicCollections = async (
   listName: string
 ): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as ComicCollectionResponse;
-    response.comicCollections.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [
-          `pages: ${String(item.numberOfPages)}`,
-          `published year: ${item.publishedYear}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.comicCollections);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getCompanies = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as CompanyResponse;
-    response.companies.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [
-          `collectible company: ${String(item.collectibleCompany)}`,
-          `production company: ${item.productionCompany}`,
-          `special effects company: ${item.specialEffectsCompany}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.companies);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getComicSeries = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as ComicSeriesResponse;
-    response.comicSeries.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [
-          `miniseries: ${String(item.miniseries)}`,
-          `number of issues: ${item.numberOfIssues}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.comicSeries);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getComicStrips = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as ComicStripResponse;
-    response.comicStrips.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [
-          `published year from: ${String(item.publishedYearFrom)}`,
-          `published year to: ${item.publishedYearTo}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.comicStrips);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getElements = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as ElementResponse;
-    response.elements.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [
-          `atomic number: ${String(item.atomicNumber)}`,
-          `atomic weight: ${item.atomicWeight}`,
-          `symbol: ${item.symbol}`,
-          `transonic series: ${item.transonicSeries}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.elements);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getEpisodes = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as EpisodeResponse;
-    response.episodes.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [
-          `number: ${String(item.episodeNumber)}`,
-          `season: ${item.season}`,
-          `production serial number: ${item.productionSerialNumber}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.episodes);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getFoods = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as FoodResponse;
-    response.foods.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [
-          `earth only origin: ${String(item.earthlyOrigin)}`,
-          `alcoholic beverage: ${item.alcoholicBeverage}`,
-          `beverage: ${item.beverage}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.foods);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getLiteraturePieces = async (
   listName: string
 ): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as LiteraturePieceResponse;
-    response.literaturePieces.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [`earth only origin: ${String(item.earthlyOrigin)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.literaturePieces);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getLocations = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as LocationResponse;
-    response.locations.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [`alternate reality: ${String(item.alternateReality)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.locations);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getMagazines = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as MagazineResponse;
-    response.magazines.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [
-          `pages: ${String(item.numberOfPages)}`,
-          `published year: ${item.publishedYear}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.magazines);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getMedicalConditions = async (
   listName: string
 ): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as MedicalConditionResponse;
-    response.medicalConditions.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [
-          `psychological condition: ${String(item.psychologicalCondition)}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.medicalConditions);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getMovies = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as MovieResponse;
-    response.movies.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [`main direction: ${String(item.mainDirector)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.movies);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getMagazineSeries = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as MagazineSeriesResponse;
-    response.magazineSeries.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [
-          `issues: ${String(item.numberOfIssues)}`,
-          `published year from: ${item.publishedYearFrom}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.magazineSeries);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getMaterials = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as MaterialsResponse;
-    response.materials.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [
-          `biochemical compound: ${String(item.biochemicalCompound)}`,
-          `chemical compound: ${item.chemicalCompound}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.materials);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getOccupations = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as OccupationResponse;
-    response.occupations.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [
-          `arts occupation: ${String(item.artsOccupation)}`,
-          `entertainment occupation: ${item.entertainmentOccupation}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.occupations);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getOrganizations = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as OrganizationResponse;
-    response.organizations.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [`alternate reality: ${String(item.alternateReality)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.organizations);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getPerformers = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as PerformerResponse;
-    response.performers.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [
-          `gender: ${String(item.gender)}`,
-          `voy performer: ${item.voyPerformer}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.performers);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getSeasons = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as SeasonResponse;
-    response.seasons.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [`number: ${String(item.seasonNumber)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.seasons);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getSpacecraftClasses = async (
   listName: string
 ): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as SpacecraftClassResponse;
-    response.spacecraftClasses.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [`crew: ${String(item.crew)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.spacecraftClasses);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getSeries = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as SeriesResponse;
-    response.series.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [`abbreviation: ${String(item.abbreviation)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.series);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getSoundtracks = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as SoundtrackResponse;
-    response.soundtracks.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [`length: ${String(item.length)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.soundtracks);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getSpecies = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as SpeciesResponse;
-    response.species.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [`humanoid species: ${String(item.humanoidSpecies)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.species);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getSpacecrafts = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as SpacecraftResponse;
-    response.spacecrafts.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [`date status: ${String(item.dateStatus)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.spacecrafts);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getStaffMembers = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as StaffMemberResponse;
-    response.staffMembers.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [`author: ${String(item.author)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.staffMembers);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getTradingCards = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as TradingCardResponse;
-    response.tradingCards.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [`number: ${String(item.number)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.tradingCards);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getTechnologyPieces = async (
   listName: string
 ): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as TechnologyPieceResponse;
-    response.technologyPieces.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [`warp technology: ${String(item.warpTechnology)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.technologyPieces);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getTitles = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as TitleResponse;
-    response.titles.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [`mirror: ${String(item.mirror)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.titles);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getTradingCardDecks = async (
   listName: string
 ): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as TradingCardDecksResponse;
-    response.tradingCardDecks.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [`frequency: ${String(item.frequency)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.tradingCardDecks);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getTradingCardSets = async (
   listName: string
 ): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as TradingCardSetResponse;
-    response.tradingCardSets.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [`release year: ${String(item.releaseYear)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.tradingCardSets);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getVideoGames = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as VideoGameResponse;
-    response.videoGames.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [`release date: ${String(item.releaseDate)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.videoGames);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getVideoReleases = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as VideoReleaseResponse;
-    response.videoReleases.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.title,
-        description: [`format: ${String(item.format)}`],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.videoReleases);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };
+
 const getWeapons = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = [];
   try {
     const response = (await (
       await getResponse(listName)
     ).json()) as WeaponResponse;
-    response.weapons.forEach((item) => {
-      const value: ResponseItem = {
-        name: item.name,
-        description: [
-          `alternate reality: ${String(item.alternateReality)}`,
-          `mirror: ${item.mirror}`,
-        ],
-      };
-      values.push(value);
-    });
+    return getResponseItems(response.weapons);
   } catch (error) {
     console.error(error);
   }
-  return values;
+  throw new Error();
 };

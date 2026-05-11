@@ -16,9 +16,7 @@ export class SearchButton extends React.Component<SearchButtonProps> {
   onClickBtn = () => {
     const value = this.props.searchKey.trim();
     localStorage.setItem('last-search', value);
-    getItems(value).then((items) =>
-      this.props.onGetItems(items)
-    );
+    getItems(value).then((items) => this.props.onGetItems(items));
   };
 
   render() {

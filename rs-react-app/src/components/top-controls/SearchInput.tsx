@@ -37,7 +37,7 @@ export class SearchInput extends React.Component<
           placeholder={this.props.placeholder}
           value={this.state.value}
           onChange={this.handleInput}
-          list="suggestions" 
+          list="suggestions"
         ></input>
         <datalist id="suggestions">
           <option value="animals" />
