@@ -14,7 +14,7 @@ export class ResultList extends React.Component<ResultListProps> {
   render() {
     return (
       <ul className="results-list">
-        <h2>Results:</h2>
+        <h2>{this.props.children}</h2>
         <li className="list-item">
           <div>Name</div>
           <div>Description</div>

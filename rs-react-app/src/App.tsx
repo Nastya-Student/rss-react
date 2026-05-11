@@ -22,7 +22,6 @@ export class App extends React.Component<AppProps, AppState> {
   };
 
   render() {
-    console.log(this.state.items);
     return (
       <main>
         <TopControls
