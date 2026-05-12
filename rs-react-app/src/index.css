@@ -12,7 +12,6 @@
   --button-shadow-hover: 1px 1px 8px rgb(139, 135, 135);
 
 
-
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color: var(--text);
@@ -32,7 +31,6 @@
   max-width: 100%;
   margin: 0 auto;
   text-align: center;
-  border-inline: 1px solid var(--border);
   min-height: 100svh;
   display: flex;
   flex-direction: column;

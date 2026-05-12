@@ -29,7 +29,7 @@ export class App extends React.Component<AppProps, AppState> {
           className="block"
           transferItems={this.handleItems}
         ></TopControls>
-        <Results className="block" items={this.state.items}></Results>
+        <Results className="block block-results" items={this.state.items}></Results>
         <ErrorButton>Error</ErrorButton>
       </main>
     );
