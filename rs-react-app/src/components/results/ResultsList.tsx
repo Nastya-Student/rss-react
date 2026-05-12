@@ -16,12 +16,12 @@ export class ResultList extends React.Component<ResultListProps> {
       <ul className="results-list">
         <h2>Results:</h2>
         <li className="list-item">
-          <div>Name</div>
-          <div>Description</div>
+          <div className="list-item-name title">Name</div>
+          <div className="list-item-description title">Description</div>
         </li>
         {this.props.items.map((item, index) => (
           <li key={index} className="list-item">
-            <div>{item.name}</div>
+            <div className="list-item-name">{item.name}</div>
             <div className="list-item-description">
               {item.description.map((descriptionItem, index) => (
                 <div key={index} className="description-item">
