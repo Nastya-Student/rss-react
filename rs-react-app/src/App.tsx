@@ -26,18 +26,20 @@ export class App extends React.Component<AppProps, AppState> {
   render() {
     return (
       <>
-      <Header></Header>
-      <main>
-        <TopControls
-          className="block"
-          transferItems={this.handleItems}
-        ></TopControls>
-        <Results className="block block-results" items={this.state.items}></Results>
-        <ErrorButton>Error</ErrorButton>
-      </main>
-      <Footer></Footer>
+        <Header></Header>
+        <main>
+          <TopControls
+            className="block"
+            transferItems={this.handleItems}
+          ></TopControls>
+          <Results
+            className="block block-results"
+            items={this.state.items}
+          ></Results>
+          <ErrorButton>Error</ErrorButton>
+        </main>
+        <Footer></Footer>
       </>
-      
     );
   }
 }

@@ -1,4 +1,5 @@
 export interface Series {
+  uid: string;
   title: string;
   abbreviation: string;
   productionStartYear: number;

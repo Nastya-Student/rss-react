@@ -1,8 +1,30 @@
 export interface LocationI {
+  uid: string;
   name: string;
   earthlyLocation: boolean;
+  qonosLocation: boolean;
+  fictionalLocation: boolean;
+  mythologicalLocation: boolean;
+  religiousLocation: boolean;
+  geographicalLocation: boolean;
+  bodyOfWater: boolean;
+  country: boolean;
+  subnationalEntity: boolean;
+  settlement: boolean;
+  usSettlement: boolean;
+  bajoranSettlement: boolean;
+  colony: boolean;
+  landform: boolean;
   road: boolean;
   structure: boolean;
+  shipyard: boolean;
+  buildingInterior: boolean;
   establishment: boolean;
+  medicalEstablishment: boolean;
+  ds9Establishment: boolean;
+  school: boolean;
+  restaurant: boolean;
+  residence: boolean;
+  mirror: boolean;
   alternateReality: boolean;
 }

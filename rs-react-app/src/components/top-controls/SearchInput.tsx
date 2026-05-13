@@ -76,7 +76,7 @@ export class SearchInput extends React.Component<
           <option value="technology pieces" />
           <option value="titles" />
           <option value="trading card decks" />
-          <option value="trading card decks" />
+          <option value="trading card sets" />
           <option value="video games" />
           <option value="video releases" />
           <option value="weapons" />
