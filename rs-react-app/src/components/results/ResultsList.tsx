@@ -4,14 +4,30 @@ import type { ResponseItem } from '../../api/interfaces/Response';
 type ResultListProps = {
   children: ReactNode;
   items: ResponseItem[];
+  shouldThrowError: boolean;
 };
 
-export class ResultList extends React.Component<ResultListProps> {
+type ResultListState = {
+  shouldThrowError: boolean;
+};
+
+export class ResultList extends React.Component<
+  ResultListProps,
+  ResultListState
+> {
   constructor(props: ResultListProps) {
     super(props);
   }
 
   render() {
+    if (this.props.shouldThrowError) {
+      return (
+        <h2 className="error-header">
+          No items was found. Please, choose something from the list.
+        </h2>
+      );
+    }
+
     return (
       <ul className="results-list">
         <h2>Results:</h2>

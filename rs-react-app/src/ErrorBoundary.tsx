@@ -6,6 +6,7 @@ type ErrorState = {
 
 type ErrorProps = {
   children?: ReactNode;
+  message: string;
 };
 
 export class ErrorBoundary extends React.Component<ErrorProps, ErrorState> {
@@ -24,11 +25,7 @@ export class ErrorBoundary extends React.Component<ErrorProps, ErrorState> {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <h2 className="error-header">
-          Something went wrong. Reload this page.
-        </h2>
-      );
+      return <h2 className="error-header">{this.props.message}</h2>;
     }
 
     return this.props.children;

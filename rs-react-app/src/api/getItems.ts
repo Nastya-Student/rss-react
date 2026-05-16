@@ -150,6 +150,9 @@ const createEndpoint = (listName: string): string => {
     return 'bookSeries';
   }
   if (listName === ITEMS.comics) {
+    return 'comics';
+  }
+  if (listName === ITEMS.comicSeries) {
     return 'comicSeries';
   }
   if (listName === ITEMS.companies) {

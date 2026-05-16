@@ -7,6 +7,7 @@ import type { ResponseItem } from './api/interfaces/Response';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ErrorBoundary } from './ErrorBoundary';
+import { getItems } from './api/getItems';
 
 type AppState = {
   items: ResponseItem[];
@@ -18,6 +19,10 @@ export class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.state = { items: [] };
+    const lastSearch = localStorage.getItem('last-search');
+    if (lastSearch) {
+      getItems(lastSearch).then((items) => this.handleItems(items));
+    }
   }
 
   handleItems = (items: ResponseItem[]) => {
@@ -27,7 +32,7 @@ export class App extends React.Component<AppProps, AppState> {
   render() {
     return (
       <>
-        <ErrorBoundary>
+        <ErrorBoundary message="Something went wrong. Please, reload this page.">
           <Header></Header>
           <main>
             <TopControls
