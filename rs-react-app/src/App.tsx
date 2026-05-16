@@ -41,7 +41,7 @@ export class App extends React.Component<AppProps, AppState> {
           <Header></Header>
           <main>
             <TopControls
-              className="block"
+              className="block search-block"
               transferItems={this.handleItems}
             ></TopControls>
             <Results

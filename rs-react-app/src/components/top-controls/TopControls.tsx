@@ -36,19 +36,31 @@ export class TopControls extends React.Component<
   render() {
     return (
       <div className={this.props.className}>
-        <SearchInput
-          id={'search-input'}
-          type={'text'}
-          placeholder={'select smth'}
-          initialValue={this.state.searchKey}
-          onChange={this.handleInputValue}
-        ></SearchInput>
-        <SearchButton
-          searchKey={this.state.searchKey}
-          onGetItems={this.handleGetItems}
-        >
-          Search
-        </SearchButton>
+        <div className="search-form">
+          <SearchInput
+            id={'search-input'}
+            type={'text'}
+            placeholder={'select smth'}
+            initialValue={this.state.searchKey}
+            onChange={this.handleInputValue}
+          ></SearchInput>
+          <SearchButton
+            searchKey={this.state.searchKey}
+            onGetItems={this.handleGetItems}
+          >
+            Search
+          </SearchButton>
+        </div>
+
+        <div className="search-form search-by-name-form">
+          <input
+            id="search-by-name-input"
+            type="text"
+            placeholder="search by name"
+            disabled
+          ></input>
+          <button disabled>Search</button>
+        </div>
       </div>
     );
   }

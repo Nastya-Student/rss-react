@@ -33,6 +33,10 @@ input {
   &:focus-visible {
     outline: 4px solid rgb(83, 81, 90);
   }
+
+  &:disabled {
+    opacity: 30%;
+  }
 }
 
 .block {
@@ -49,6 +53,17 @@ input {
     min-width: 90%;
     width: 90%;
   }
+}
+
+.search-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-form {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .block-results {
