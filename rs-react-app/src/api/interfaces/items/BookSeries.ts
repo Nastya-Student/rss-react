@@ -1,4 +1,5 @@
 export interface BookSeries {
+  uid: string;
   title: string;
   publishedYearFrom: number;
   publishedMonthFrom: number;
@@ -8,4 +9,5 @@ export interface BookSeries {
   yearFrom: number;
   yearTo: number;
   miniseries: boolean;
+  ebookSeries: boolean;
 }

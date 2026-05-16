@@ -28,6 +28,14 @@ export class SearchInput extends React.Component<
     this.props.onChange(event.target.value);
   };
 
+  handleInputOnfocus = (): void => {
+    const tempValue = this.state.value;
+    this.setState({ value: '' });
+    setTimeout(() => {
+      this.setState({ value: tempValue });
+    }, 1000);
+  };
+
   render() {
     return (
       <div>
@@ -38,6 +46,7 @@ export class SearchInput extends React.Component<
           value={this.state.value}
           onChange={this.handleInput}
           list="suggestions"
+          onFocus={this.handleInputOnfocus}
         ></input>
         <datalist id="suggestions">
           <option value="animals" />
@@ -76,7 +85,7 @@ export class SearchInput extends React.Component<
           <option value="technology pieces" />
           <option value="titles" />
           <option value="trading card decks" />
-          <option value="trading card decks" />
+          <option value="trading card sets" />
           <option value="video games" />
           <option value="video releases" />
           <option value="weapons" />

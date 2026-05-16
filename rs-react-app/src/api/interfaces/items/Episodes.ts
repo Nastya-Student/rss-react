@@ -1,15 +1,25 @@
-import type { Season } from './Seasons';
-import type { Series } from './Series';
-
 export interface Episode {
+  uid: string;
   title: string;
   titleGerman: string;
-  series: Series;
-  season: Season;
+  titleItalian: number;
+  titleJapanese: number;
+  series: {
+    uid: string;
+    title: string;
+  };
+  season: {
+    uid: string;
+    title: string;
+  };
   seasonNumber: number;
   episodeNumber: number;
-  productionSerialNumber: number;
+  productionSerialNumber: string;
+  featureLength: boolean;
+  stardateFrom: number;
+  stardateTo: number;
   yearFrom: number;
   yearTo: number;
-  usAirDate: number;
+  usAirDate: string;
+  finalScriptDate: number;
 }

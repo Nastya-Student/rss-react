@@ -146,6 +146,39 @@ export const getSpecificResponse = async (
 
 const createEndpoint = (listName: string): string => {
   const list = listName.split(' ');
+  if (listName === ITEMS.bookSeries) {
+    return 'bookSeries';
+  }
+  if (listName === ITEMS.comics) {
+    return 'comics';
+  }
+  if (listName === ITEMS.comicSeries) {
+    return 'comicSeries';
+  }
+  if (listName === ITEMS.companies) {
+    return 'company';
+  }
+  if (listName === ITEMS.literaturePieces) {
+    return 'literature';
+  }
+  if (listName === ITEMS.magazineSeries) {
+    return 'magazineSeries';
+  }
+  if (listName === ITEMS.series) {
+    return 'series';
+  }
+  if (listName === ITEMS.spacecraftClasses) {
+    return 'spacecraftClass';
+  }
+  if (listName === ITEMS.species) {
+    return 'species';
+  }
+  if (listName === ITEMS.staffMembers) {
+    return 'staff';
+  }
+  if (listName === ITEMS.technologyPieces) {
+    return 'technology';
+  }
   for (let i = 1; i < list.length; i += 1) {
     const word =
       list[i].substring(0, 1).toUpperCase() +
@@ -159,7 +192,6 @@ const getResponseItems = <T extends { name?: string; title?: string }>(
   data: T[]
 ): ResponseItem[] => {
   const values: ResponseItem[] = [];
-
   data.forEach((item) => {
     const value: ResponseItem = { name: '', description: [] };
     if (Object.keys(item).find((key) => key === 'name')) {
@@ -174,6 +206,9 @@ const getResponseItems = <T extends { name?: string; title?: string }>(
       value.name = item.title;
     }
     value.description = invokeDescriptions(item);
+    if (value.description.length == 0) {
+      value.description = ['no description'];
+    }
     values.push(value);
   });
 
@@ -188,8 +223,20 @@ const invokeDescriptions = <T extends Record<string, unknown>>(
     .filter(([key]) => key !== 'name' && key !== 'title' && key !== 'uid')
     .map(
       ([key, value]) =>
-        `${key}: ${value instanceof Object ? (value as { name?: string }).name : value}`
+        `${splitKey(key)}: ${
+          value instanceof Object
+            ? ((value as { name?: string }).name ??
+              (value as { title?: string }).title)
+            : value
+        }`
     );
+};
+
+const splitKey = (key: string): string => {
+  return key
+    .split(/(?=[A-Z])/)
+    .join(' ')
+    .toLowerCase();
 };
 
 // const getAnimals = async (listName: string): Promise<ResponseItem[]> => {
@@ -399,7 +446,7 @@ const getLiteraturePieces = async (
     const response = (await (
       await getResponse(listName)
     ).json()) as LiteraturePieceResponse;
-    return getResponseItems(response.literaturePieces);
+    return getResponseItems(response.literature);
   } catch (error) {
     console.error(error);
   }
@@ -595,7 +642,7 @@ const getStaffMembers = async (listName: string): Promise<ResponseItem[]> => {
     const response = (await (
       await getResponse(listName)
     ).json()) as StaffMemberResponse;
-    return getResponseItems(response.staffMembers);
+    return getResponseItems(response.staff);
   } catch (error) {
     console.error(error);
   }
@@ -621,7 +668,7 @@ const getTechnologyPieces = async (
     const response = (await (
       await getResponse(listName)
     ).json()) as TechnologyPieceResponse;
-    return getResponseItems(response.technologyPieces);
+    return getResponseItems(response.technology);
   } catch (error) {
     console.error(error);
   }

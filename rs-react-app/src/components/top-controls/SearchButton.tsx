@@ -5,7 +5,7 @@ import type { ResponseItem } from '../../api/interfaces/Response';
 type SearchButtonProps = {
   children: ReactNode;
   searchKey: string;
-  onGetItems: (items: ResponseItem[]) => void;
+  onGetItems: (items: ResponseItem[], isLoading: boolean) => void;
 };
 
 export class SearchButton extends React.Component<SearchButtonProps> {
@@ -15,8 +15,14 @@ export class SearchButton extends React.Component<SearchButtonProps> {
 
   onClickBtn = () => {
     const value = this.props.searchKey.trim();
+    if (localStorage.getItem('last-search') === value) {
+      return;
+    }
     localStorage.setItem('last-search', value);
-    getItems(value).then((items) => this.props.onGetItems(items));
+    this.props.onGetItems([], true);
+    getItems(value)
+      .then((items) => this.props.onGetItems(items, false))
+      .catch(() => this.props.onGetItems([], false));
   };
 
   render() {
