@@ -6,6 +6,7 @@ import { ErrorButton } from './components/ErrorButton';
 import type { ResponseItem } from './api/interfaces/Response';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { ErrorBoundary } from './ErrorBoundary';
 
 type AppState = {
   items: ResponseItem[];
@@ -26,19 +27,21 @@ export class App extends React.Component<AppProps, AppState> {
   render() {
     return (
       <>
-        <Header></Header>
-        <main>
-          <TopControls
-            className="block"
-            transferItems={this.handleItems}
-          ></TopControls>
-          <Results
-            className="block block-results"
-            items={this.state.items}
-          ></Results>
-          <ErrorButton>Error</ErrorButton>
-        </main>
-        <Footer></Footer>
+        <ErrorBoundary>
+          <Header></Header>
+          <main>
+            <TopControls
+              className="block"
+              transferItems={this.handleItems}
+            ></TopControls>
+            <Results
+              className="block block-results"
+              items={this.state.items}
+            ></Results>
+            <ErrorButton></ErrorButton>
+          </main>
+          <Footer></Footer>
+        </ErrorBoundary>
       </>
     );
   }

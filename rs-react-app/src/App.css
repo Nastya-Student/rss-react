@@ -94,3 +94,8 @@ input {
 .title {
   min-height: 1rem;
 }
+
+.error-header {
+  align-self: center;
+  padding-top: 40vh;
+}

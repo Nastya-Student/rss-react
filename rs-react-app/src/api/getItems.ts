@@ -230,8 +230,11 @@ const invokeDescriptions = <T extends Record<string, unknown>>(
 };
 
 const splitKey = (key: string): string => {
-  return key.split(/(?=[A-Z])/).join(' ').toLowerCase();
-} 
+  return key
+    .split(/(?=[A-Z])/)
+    .join(' ')
+    .toLowerCase();
+};
 
 // const getAnimals = async (listName: string): Promise<ResponseItem[]> => {
 //   try {
