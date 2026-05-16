@@ -5,7 +5,7 @@ import type { ResponseItem } from '../../api/interfaces/Response';
 
 type TopControlsProps = {
   className: string;
-  transferItems: (items: ResponseItem[]) => void;
+  transferItems: (items: ResponseItem[], isLoading: boolean) => void;
 };
 
 type TopControlState = {
@@ -29,26 +29,38 @@ export class TopControls extends React.Component<
     this.setState({ searchKey: value });
   };
 
-  handleGetItems = (items: ResponseItem[]): void => {
-    this.props.transferItems(items);
+  handleGetItems = (items: ResponseItem[], isLoading: boolean): void => {
+    this.props.transferItems(items, isLoading);
   };
 
   render() {
     return (
       <div className={this.props.className}>
-        <SearchInput
-          id={'search-input'}
-          type={'text'}
-          placeholder={'choose smth'}
-          initialValue={this.state.searchKey}
-          onChange={this.handleInputValue}
-        ></SearchInput>
-        <SearchButton
-          searchKey={this.state.searchKey}
-          onGetItems={this.handleGetItems}
-        >
-          Search
-        </SearchButton>
+        <div className="search-form">
+          <SearchInput
+            id={'search-input'}
+            type={'text'}
+            placeholder={'select smth'}
+            initialValue={this.state.searchKey}
+            onChange={this.handleInputValue}
+          ></SearchInput>
+          <SearchButton
+            searchKey={this.state.searchKey}
+            onGetItems={this.handleGetItems}
+          >
+            Search
+          </SearchButton>
+        </div>
+
+        <div className="search-form search-by-name-form">
+          <input
+            id="search-by-name-input"
+            type="text"
+            placeholder="search by name"
+            disabled
+          ></input>
+          <button disabled>Search</button>
+        </div>
       </div>
     );
   }

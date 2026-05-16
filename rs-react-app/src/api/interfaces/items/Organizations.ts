@@ -1,14 +1,16 @@
 export interface Organization {
+  uid: string;
   name: string;
+  government: boolean;
+  intergovernmentalOrganization: boolean;
+  researchOrganization: boolean;
+  sportOrganization: boolean;
+  medicalOrganization: boolean;
   militaryOrganization: boolean;
   militaryUnit: boolean;
-  medicalOrganization: boolean;
-  sportOrganization: boolean;
   governmentAgency: boolean;
   lawEnforcementAgency: boolean;
-  government: boolean;
-  researchOrganization: boolean;
-  alternateReality: boolean;
   prisonOrPenalColony: boolean;
-  intergovernmentalOrganization: boolean;
+  mirror: boolean;
+  alternateReality: boolean;
 }

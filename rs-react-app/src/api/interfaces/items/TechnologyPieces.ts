@@ -1,5 +1,5 @@
 export interface TechnologyPiece {
-  uid: 'TEMA0000195608';
+  uid: string;
   name: string;
   borgTechnology: boolean;
   borgComponent: boolean;

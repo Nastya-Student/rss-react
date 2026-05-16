@@ -157,7 +157,7 @@ export interface FoodResponse {
 export interface LiteraturePieceResponse {
   page: Page;
   sort: Sort;
-  literaturePieces: LiteraturePiece[];
+  literature: LiteraturePiece[];
 }
 
 export interface LocationResponse {
@@ -253,13 +253,13 @@ export interface SpeciesResponse {
 export interface StaffMemberResponse {
   page: Page;
   sort: Sort;
-  staffMembers: StaffMember[];
+  staff: StaffMember[];
 }
 
 export interface TechnologyPieceResponse {
   page: Page;
   sort: Sort;
-  technologyPieces: TechnologyPiece[];
+  technology: TechnologyPiece[];
 }
 
 export interface TitleResponse {
