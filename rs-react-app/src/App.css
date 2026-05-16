@@ -14,7 +14,19 @@ footer {
   display: flex;
   align-items: center;
   padding: 1rem;
+}
+
+header {
   justify-content: center;
+}
+
+footer {
+  justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
+  color: var(--text);
 }
 
 button,
@@ -124,6 +136,7 @@ input {
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+}
 
   @keyframes rotation {
     0% {
@@ -133,4 +146,4 @@ input {
       transform: rotate(360deg);
     }
   }
-}
+
