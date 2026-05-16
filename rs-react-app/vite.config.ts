@@ -2,7 +2,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-
 export default defineConfig({
   plugins: [react()],
   test: {
@@ -17,7 +16,7 @@ export default defineConfig({
         'src/**/*.spec.{js,jsx,ts,tsx}',
         'src/index.{js,jsx,ts,tsx}',
         'src/setupTests.{js,ts}',
-        'src/**/*.d.ts'
+        'src/**/*.d.ts',
       ],
       reportsDirectory: './coverage',
       clean: false,

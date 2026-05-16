@@ -130,7 +130,7 @@ input {
 .loader {
   width: 48px;
   height: 48px;
-  border: 5px solid #fff;
+  border: 5px solid var(--text);
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
@@ -138,12 +138,11 @@ input {
   animation: rotation 1s linear infinite;
 }
 
-  @keyframes rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
   }
-
+  100% {
+    transform: rotate(360deg);
+  }
+}
