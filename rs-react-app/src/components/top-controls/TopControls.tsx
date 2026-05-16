@@ -5,7 +5,7 @@ import type { ResponseItem } from '../../api/interfaces/Response';
 
 type TopControlsProps = {
   className: string;
-  transferItems: (items: ResponseItem[]) => void;
+  transferItems: (items: ResponseItem[], isLoading: boolean) => void;
 };
 
 type TopControlState = {
@@ -29,8 +29,8 @@ export class TopControls extends React.Component<
     this.setState({ searchKey: value });
   };
 
-  handleGetItems = (items: ResponseItem[]): void => {
-    this.props.transferItems(items);
+  handleGetItems = (items: ResponseItem[], isLoading: boolean): void => {
+    this.props.transferItems(items, isLoading);
   };
 
   render() {
@@ -39,7 +39,7 @@ export class TopControls extends React.Component<
         <SearchInput
           id={'search-input'}
           type={'text'}
-          placeholder={'choose smth'}
+          placeholder={'select smth'}
           initialValue={this.state.searchKey}
           onChange={this.handleInputValue}
         ></SearchInput>

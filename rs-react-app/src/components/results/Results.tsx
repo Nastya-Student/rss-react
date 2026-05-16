@@ -6,6 +6,7 @@ import { ErrorBoundary } from '../../ErrorBoundary';
 type ResultsProps = {
   className: string;
   items: ResponseItem[];
+  isLoading: boolean;
 };
 
 export class Results extends React.Component<ResultsProps> {
@@ -20,6 +21,7 @@ export class Results extends React.Component<ResultsProps> {
           <ResultList
             items={this.props.items}
             shouldThrowError={this.props.items.length === 0}
+            isLoading={this.props.isLoading}
           >
             Results
           </ResultList>

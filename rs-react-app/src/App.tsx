@@ -11,6 +11,7 @@ import { getItems } from './api/getItems';
 
 type AppState = {
   items: ResponseItem[];
+  isLoading: boolean;
 };
 
 type AppProps = object;
@@ -18,15 +19,19 @@ type AppProps = object;
 export class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
-    this.state = { items: [] };
+    this.state = { items: [], isLoading: false };
+  }
+
+  componentDidMount(): void {
     const lastSearch = localStorage.getItem('last-search');
     if (lastSearch) {
-      getItems(lastSearch).then((items) => this.handleItems(items));
+      this.setState({ isLoading: true });
+      getItems(lastSearch).then((items) => this.handleItems(items, false));
     }
   }
 
-  handleItems = (items: ResponseItem[]) => {
-    this.setState({ items: items });
+  handleItems = (items: ResponseItem[], isLoading: boolean) => {
+    this.setState({ items: items, isLoading: isLoading });
   };
 
   render() {
@@ -42,6 +47,7 @@ export class App extends React.Component<AppProps, AppState> {
             <Results
               className="block block-results"
               items={this.state.items}
+              isLoading={this.state.isLoading}
             ></Results>
             <ErrorButton></ErrorButton>
           </main>

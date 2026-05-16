@@ -1,14 +1,17 @@
 import React, { type ReactNode } from 'react';
 import type { ResponseItem } from '../../api/interfaces/Response';
+import { Loader } from '../Loader';
 
 type ResultListProps = {
   children: ReactNode;
   items: ResponseItem[];
   shouldThrowError: boolean;
+  isLoading: boolean;
 };
 
 type ResultListState = {
   shouldThrowError: boolean;
+  isLoading: boolean;
 };
 
 export class ResultList extends React.Component<
@@ -20,6 +23,10 @@ export class ResultList extends React.Component<
   }
 
   render() {
+    if (this.props.isLoading) {
+      return <Loader></Loader>;
+    }
+
     if (this.props.shouldThrowError) {
       return (
         <h2 className="error-header">
