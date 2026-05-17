@@ -67,6 +67,14 @@ input {
   }
 }
 
+.about-block {
+  flex-direction: column;
+}
+
+.about-title {
+  text-align: left;
+}
+
 .search-block {
   display: flex;
   flex-direction: column;
@@ -145,4 +153,14 @@ input {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.error-page-title {
+  margin: auto;
+  font-size: xx-large;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: center;
 }
