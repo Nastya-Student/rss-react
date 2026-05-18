@@ -11,8 +11,8 @@ export const Header = (): JSX.Element => {
   };
 
   const handleHome = () => {
-    navigate('/')
-  }
+    navigate('/');
+  };
 
   if (isHomePage) {
     return (
@@ -25,9 +25,9 @@ export const Header = (): JSX.Element => {
   }
   return (
     <header>
-        <div></div>
-        <h1>Star Trek objects</h1>
-        <button onClick={handleHome}>Home</button>
-      </header>
+      <div></div>
+      <h1>Star Trek objects</h1>
+      <button onClick={handleHome}>Home</button>
+    </header>
   );
 };

@@ -17,7 +17,7 @@ footer {
 }
 
 header {
-  justify-content: center;
+  justify-content: space-between;
 }
 
 footer {
@@ -163,4 +163,18 @@ input {
   justify-content: space-between;
   gap: 2rem;
   align-items: center;
+}
+
+.details {
+  flex-direction: column;
+}
+
+.details-name {
+  border: 1px solid var(--border);
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
 }
