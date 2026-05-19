@@ -1,10 +1,9 @@
-import type { JSX, ReactNode } from 'react';
+import type { JSX } from 'react';
 import { getItems } from '../../api/getItems';
 import type { ResponseItem, ResponsePage } from '../../api/interfaces/Response';
 import { LOCAL_STORAGE } from '../../constants';
 
 type SearchButtonProps = {
-  children: ReactNode;
   searchKey: string;
   onGetItems: (
     items: ResponseItem[],
@@ -37,7 +36,9 @@ export const SearchButton = (props: SearchButtonProps): JSX.Element => {
       listName: value,
       pageNumber: 0,
     })
-      .then((items) => props.onGetItems(items.items, items.pageInfo, false))
+      .then((items) => {
+        props.onGetItems(items.items, items.pageInfo, false);
+      })
       .catch(() =>
         props.onGetItems(
           [],
@@ -52,5 +53,5 @@ export const SearchButton = (props: SearchButtonProps): JSX.Element => {
       );
   };
 
-  return <button onClick={onClickBtn}>{props.children}</button>;
+  return <button onClick={onClickBtn}>Search</button>;
 };

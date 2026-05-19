@@ -1,4 +1,4 @@
-import { useState, type JSX, type ReactNode } from 'react';
+import { useEffect, useState, type JSX, type ReactNode } from 'react';
 import type { ResponseItem, ResponsePage } from '../../api/interfaces/Response';
 import { Loader } from '../Loader';
 import { Pagination } from '../Pagination';
@@ -19,18 +19,35 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
   const [shouldThrowError, setShouldThrowError] = useState(
     props.shouldThrowError
   );
+  const [isLoading, setIsLoading] = useState(props.isLoading);
+
+  useEffect(() => {
+    const loadData = async (): Promise<void> => {
+      setItems(props.items);
+      setPageInfo(props.pageInfo);
+      setShouldThrowError(props.shouldThrowError);
+      setIsLoading(props.isLoading);
+    };
+
+    loadData();
+  }, [props.items, props.pageInfo, props.shouldThrowError, props.isLoading]);
 
   const increasePageNumber = (): void => {
     const nextPage = pageInfo.pageNumber + 1;
+    setIsLoading(true);
     getData(nextPage);
   };
 
   const decreasePageNumber = (): void => {
     const prevPage = pageInfo.pageNumber - 1;
+    setIsLoading(true);
+
     getData(prevPage);
   };
 
   const getData = (pageNumber: number): void => {
+    setShouldThrowError(false);
+
     getItems({
       listName: localStorage.getItem(LOCAL_STORAGE.lastSearch) ?? '',
       pageNumber: pageNumber,
@@ -41,10 +58,13 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
       })
       .catch(() => {
         setShouldThrowError(true);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
-  if (props.isLoading) {
+  if (isLoading) {
     return <Loader></Loader>;
   }
 

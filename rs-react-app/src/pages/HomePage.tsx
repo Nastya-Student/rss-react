@@ -7,6 +7,7 @@ import { TopControls } from '../components/top-controls/TopControls';
 import { Results } from '../components/results/Results';
 import { ErrorButton } from '../components/ErrorButton';
 import { Footer } from '../components/Footer';
+import { LOCAL_STORAGE } from '../constants';
 
 export const HomePage = (): JSX.Element => {
   const [items, setItems] = useState<ResponseItem[]>([]);
@@ -23,13 +24,13 @@ export const HomePage = (): JSX.Element => {
     pageInfo: ResponsePage,
     isLoading: boolean
   ) => {
-    setItems(items);
+    setItems(items); // useEffect
     setIsLoading(isLoading);
     setPageInfo(pageInfo);
   };
 
   useEffect(() => {
-    const lastSearch = localStorage.getItem('last-search');
+    const lastSearch = localStorage.getItem(LOCAL_STORAGE.lastSearch);
     if (lastSearch) {
       const loadItems = async (): Promise<void> => {
         setIsLoading(true);

@@ -39,9 +39,10 @@ export const TopControls = (props: TopControlsProps): JSX.Element => {
           initialValue={searchKey}
           onChange={handleInputValue}
         ></SearchInput>
-        <SearchButton searchKey={searchKey} onGetItems={handleGetItems}>
-          Search
-        </SearchButton>
+        <SearchButton
+          searchKey={searchKey}
+          onGetItems={handleGetItems}
+        ></SearchButton>
       </div>
 
       <div className="search-form search-by-name-form">
