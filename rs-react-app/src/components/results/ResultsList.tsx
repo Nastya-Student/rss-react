@@ -41,8 +41,17 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
   const decreasePageNumber = (): void => {
     const prevPage = pageInfo.pageNumber - 1;
     setIsLoading(true);
-
     getData(prevPage);
+  };
+
+  const getFirstPage = (): void => {
+    setIsLoading(true);
+    getData(0);
+  };
+
+  const getLastPage = (): void => {
+    setIsLoading(true);
+    getData(pageInfo.totalPages - 1);
   };
 
   const getData = (pageNumber: number): void => {
@@ -86,6 +95,8 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
         lastPage={pageInfo.lastPage}
         onClickNext={increasePageNumber}
         onCLickPrev={decreasePageNumber}
+        onClickFirst={getFirstPage}
+        onClickLast={getLastPage}
       ></Pagination>
       <li className="list-item">
         <div className="list-item-name title">Name</div>
