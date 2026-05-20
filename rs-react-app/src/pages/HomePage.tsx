@@ -8,6 +8,7 @@ import { Results } from '../components/results/Results';
 import { ErrorButton } from '../components/ErrorButton';
 import { Footer } from '../components/Footer';
 import { LOCAL_STORAGE } from '../constants';
+import { Outlet } from 'react-router-dom';
 
 export const HomePage = (): JSX.Element => {
   const [items, setItems] = useState<ResponseItem[]>([]);
@@ -60,6 +61,8 @@ export const HomePage = (): JSX.Element => {
             pageInfo={pageInfo}
             isLoading={isLoading}
           ></Results>
+          <Outlet></Outlet>
+
           <ErrorButton></ErrorButton>
         </main>
         <Footer></Footer>

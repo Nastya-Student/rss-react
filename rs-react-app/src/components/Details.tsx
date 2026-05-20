@@ -1,17 +1,19 @@
 import type { JSX } from 'react';
-import type { ResponseItem } from '../api/interfaces/Response';
+import { useParams } from 'react-router-dom';
 
-export const Details = (props: ResponseItem): JSX.Element => {
+export const Details = (): JSX.Element => {
+  const { name } = useParams();
+  const { description } = useParams();
   return (
     <>
-      <div className="block details">
+      <div className="details">
         <div className="details-name">
           <h2>Name:</h2>
-          <div>{props.name}</div>
+          <div>{name}</div>
         </div>
         <div className="details-description">
           <h2>Description:</h2>
-          {props.description.map((descriptionItem, index) => (
+          {description?.split(',').map((descriptionItem, index) => (
             <div key={index} className="description-item">
               {descriptionItem}
             </div>

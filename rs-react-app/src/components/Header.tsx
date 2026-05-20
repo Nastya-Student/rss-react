@@ -20,9 +20,9 @@ export const Header = (): JSX.Element => {
         <div></div>
         <div>
           <h1>Star Trek </h1>
-        <p>(Memory Alpha data)</p>
+          <p>(Memory Alpha data)</p>
         </div>
-        
+
         <button onClick={handleAbout}>About</button>
       </header>
     );

@@ -4,6 +4,7 @@ import { Loader } from '../Loader';
 import { Pagination } from '../Pagination';
 import { getItems } from '../../api/getItems';
 import { LOCAL_STORAGE } from '../../constants';
+import { useNavigate } from 'react-router-dom';
 
 type ResultListProps = {
   children: ReactNode;
@@ -20,6 +21,7 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
     props.shouldThrowError
   );
   const [isLoading, setIsLoading] = useState(props.isLoading);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadData = async (): Promise<void> => {
@@ -85,6 +87,10 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
     );
   }
 
+  const handleItemOnclick = (item: ResponseItem) => {
+    navigate(`details/${item.name}/${item.description}`);
+  };
+
   return (
     <ul className="results-list">
       <h2>{props.children}</h2>
@@ -103,7 +109,11 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
         <div className="list-item-description title">Description</div>
       </li>
       {items.map((item, index) => (
-        <li key={index} className="list-item">
+        <li
+          key={index}
+          className="list-item"
+          onClick={() => handleItemOnclick(item)}
+        >
           <div className="list-item-name">{item.name}</div>
           <div className="list-item-description">
             {item.description.map((descriptionItem, index) => (

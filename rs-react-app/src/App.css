@@ -94,6 +94,8 @@ input {
 .block-results {
   overflow-y: scroll;
   scrollbar-width: none;
+  position: relative;
+  z-index: 0;
 }
 
 .block-results::-webkit-scrollbar {
@@ -172,10 +174,23 @@ input {
 
 .details {
   flex-direction: column;
+  position: fixed;
+  z-index: 3;
+  width: 12rem;
+  min-height: 7rem;
+
+  display: flex;
+  padding: 1rem;
+  justify-content: space-between;
+  background-color: var(--bg);
+  gap: 2rem;
+  border: 1px solid var(--border);
+  right: 3rem;
+  top: 30%;
 }
 
 .details-name {
-  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .pagination {

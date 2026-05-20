@@ -37,7 +37,7 @@ export const SearchInput = (props: SearchInputProps): JSX.Element => {
         onFocus={handleInputOnfocus}
       ></input>
       <datalist id="suggestions">
-        {Object.values(ITEMS).map((item)=>(
+        {Object.values(ITEMS).map((item) => (
           <option key={item} value={item}></option>
         ))}
       </datalist>
