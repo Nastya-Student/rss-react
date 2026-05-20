@@ -18,7 +18,11 @@ export const Header = (): JSX.Element => {
     return (
       <header>
         <div></div>
-        <h1>Star Trek objects</h1>
+        <div>
+          <h1>Star Trek </h1>
+        <p>(Memory Alpha data)</p>
+        </div>
+        
         <button onClick={handleAbout}>About</button>
       </header>
     );
@@ -26,7 +30,7 @@ export const Header = (): JSX.Element => {
   return (
     <header>
       <div></div>
-      <h1>Star Trek objects</h1>
+      <h1>Star Trek (Memory Alpha data)</h1>
       <button onClick={handleHome}>Home</button>
     </header>
   );

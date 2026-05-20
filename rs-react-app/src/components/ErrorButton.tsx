@@ -9,5 +9,5 @@ export const ErrorButton = (): JSX.Element => {
   if (shouldThrowError) {
     throw new Error('error simulation');
   }
-  return <button onClick={onClickBtn}>Error</button>;
+  return <button className={'error-button'} onClick={onClickBtn}>Error</button>;
 };
