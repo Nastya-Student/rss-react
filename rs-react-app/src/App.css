@@ -27,6 +27,10 @@ footer {
 a {
   text-decoration: none;
   color: var(--text);
+  &:hover {
+    cursor: pointer;
+    text-shadow: var(--button-shadow-hover);
+  }
 }
 
 button,
@@ -69,6 +73,7 @@ input {
 
 .about-block {
   flex-direction: column;
+  text-align: left;
 }
 
 .about-title {
