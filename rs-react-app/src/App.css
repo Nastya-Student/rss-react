@@ -117,6 +117,10 @@ input {
   width: 100%;
   box-shadow: var(--box-shadow);
   padding: 1rem;
+  &:hover {
+    cursor: pointer;
+    background-color: var(--bg-hover);
+  }
 }
 
 .list-item-description,
