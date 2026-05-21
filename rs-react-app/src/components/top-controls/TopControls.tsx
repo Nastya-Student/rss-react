@@ -17,6 +17,8 @@ export const TopControls = (props: TopControlsProps): JSX.Element => {
     localStorage.getItem('last-search') ?? ''
   );
 
+  const [disabledValue, setDisabledValue] = useState(true);
+
   const handleInputValue = (value: string): void => {
     setSearchKey(value);
   };
@@ -27,6 +29,7 @@ export const TopControls = (props: TopControlsProps): JSX.Element => {
     isLoading: boolean
   ): void => {
     props.transferItems(items, pageInfo, isLoading);
+    setDisabledValue(false);
   };
 
   return (
@@ -38,6 +41,8 @@ export const TopControls = (props: TopControlsProps): JSX.Element => {
           placeholder={'select smth'}
           initialValue={searchKey}
           onChange={handleInputValue}
+          isSelect={true}
+          list="suggestions"
         ></SearchInput>
         <SearchButton
           searchKey={searchKey}
@@ -46,13 +51,20 @@ export const TopControls = (props: TopControlsProps): JSX.Element => {
       </div>
 
       <div className="search-form search-by-name-form">
-        <input
+        <SearchInput
           id="search-by-name-input"
           type="text"
           placeholder="search by name"
-          disabled
-        ></input>
-        <button disabled>Search</button>
+          disabled={disabledValue}
+          onChange={handleInputValue}
+          isSelect={false}
+        ></SearchInput>
+        <SearchButton
+          disabled={disabledValue}
+          searchKey={searchKey}
+          onGetItems={handleGetItems}
+          isNameSearch={true}
+        ></SearchButton>
       </div>
     </div>
   );

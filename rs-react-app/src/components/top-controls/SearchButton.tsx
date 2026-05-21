@@ -10,6 +10,8 @@ type SearchButtonProps = {
     pageInfo: ResponsePage,
     isLoading: boolean
   ) => void;
+  disabled?: boolean;
+  isNameSearch?: boolean;
 };
 
 export const SearchButton = (props: SearchButtonProps): JSX.Element => {
@@ -18,8 +20,9 @@ export const SearchButton = (props: SearchButtonProps): JSX.Element => {
     if (localStorage.getItem(LOCAL_STORAGE.lastSearch) === value) {
       return;
     }
-
-    localStorage.setItem(LOCAL_STORAGE.lastSearch, value);
+    if (!props.isNameSearch) {
+      localStorage.setItem(LOCAL_STORAGE.lastSearch, value);
+    }
 
     props.onGetItems(
       [],
@@ -33,8 +36,11 @@ export const SearchButton = (props: SearchButtonProps): JSX.Element => {
     );
 
     getItems({
-      listName: value,
+      listName: props.isNameSearch
+        ? (localStorage.getItem(LOCAL_STORAGE.lastSearch) ?? '')
+        : value,
       pageNumber: 0,
+      name: props.isNameSearch ? value : '',
     })
       .then((items) => {
         props.onGetItems(items.items, items.pageInfo, false);
@@ -53,5 +59,9 @@ export const SearchButton = (props: SearchButtonProps): JSX.Element => {
       );
   };
 
-  return <button onClick={onClickBtn}>Search</button>;
+  return (
+    <button onClick={onClickBtn} disabled={props.disabled}>
+      Search
+    </button>
+  );
 };

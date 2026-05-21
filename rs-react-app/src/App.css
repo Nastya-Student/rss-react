@@ -207,3 +207,11 @@ input {
 .error-button {
   margin-top: 1rem;
 }
+
+.close-hint {
+  bottom: 105%;
+  position: absolute;
+  z-index: 1;
+  opacity: 0.5;
+  font-size: medium;
+}

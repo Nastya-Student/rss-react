@@ -5,8 +5,11 @@ type SearchInputProps = {
   id: string;
   type: 'text';
   placeholder: string;
-  initialValue: string;
+  initialValue?: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
+  isSelect?: boolean;
+  list?: string;
 };
 
 export const SearchInput = (props: SearchInputProps): JSX.Element => {
@@ -18,6 +21,9 @@ export const SearchInput = (props: SearchInputProps): JSX.Element => {
   };
 
   const handleInputOnfocus = (): void => {
+    if (!props.isSelect) {
+      return;
+    }
     const tempValue = value;
     setValue('');
     setTimeout(() => {
@@ -33,14 +39,19 @@ export const SearchInput = (props: SearchInputProps): JSX.Element => {
         placeholder={props.placeholder}
         value={value}
         onChange={handleInput}
-        list="suggestions"
+        list={props.list}
+        disabled={props.disabled}
         onFocus={handleInputOnfocus}
       ></input>
-      <datalist id="suggestions">
-        {Object.values(ITEMS).map((item) => (
-          <option key={item} value={item}></option>
-        ))}
-      </datalist>
+      {props.isSelect ? (
+        <datalist id="suggestions">
+          {Object.values(ITEMS).map((item) => (
+            <option key={item} value={item}></option>
+          ))}
+        </datalist>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

@@ -48,6 +48,7 @@ import type {
 type RequestProps = {
   listName: string;
   pageNumber?: number;
+  name?: string;
 };
 
 export const getItems = async (props: RequestProps): Promise<AppResponse> => {
@@ -57,7 +58,14 @@ export const getItems = async (props: RequestProps): Promise<AppResponse> => {
 
 export const getResponse = async (props: RequestProps): Promise<Response> => {
   const data = await fetch(
-    `${BASE_URL}${createEndpoint(props.listName)}/search?pageNumber=${props.pageNumber ?? 0}`
+    `${BASE_URL}${createEndpoint(props.listName)}/search?pageNumber=${props.pageNumber ?? 0}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `title=${props.name ?? ''}&name=${props.name ?? ''}`,
+    }
   );
   return data;
 };

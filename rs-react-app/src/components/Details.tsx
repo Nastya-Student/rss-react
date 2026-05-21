@@ -7,6 +7,7 @@ export const Details = (): JSX.Element => {
   return (
     <>
       <div className="details">
+        <span className="close-hint">press esk to close</span>
         <div className="details-name">
           <h2>Name:</h2>
           <div>{name}</div>
