@@ -2,6 +2,7 @@ import { BASE_URL, ITEMS } from '../constants';
 
 import type {
   AnimalResponse,
+  AppResponse,
   AstronomicalObjectResponse,
   BookCollectionResponse,
   BookResponse,
@@ -44,100 +45,117 @@ import type {
   WeaponResponse,
 } from './interfaces/Response';
 
-export const getItems = async (listName: string): Promise<ResponseItem[]> => {
-  const values: ResponseItem[] = await getSpecificResponse(listName);
+type RequestProps = {
+  listName: string;
+  pageNumber?: number;
+  name?: string;
+};
+
+export const getItems = async (props: RequestProps): Promise<AppResponse> => {
+  const values: AppResponse = await getSpecificResponse(props);
   return values;
 };
 
-export const getResponse = async (listName: string): Promise<Response> => {
-  const data = await fetch(`${BASE_URL}${createEndpoint(listName)}/search`);
+export const getResponse = async (props: RequestProps): Promise<Response> => {
+  const data = await fetch(
+    `${BASE_URL}${createEndpoint(props.listName)}/search?pageNumber=${props.pageNumber ?? 0}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `title=${props.name ?? ''}&name=${props.name ?? ''}`,
+    }
+  );
   return data;
 };
 
 export const getSpecificResponse = async (
-  listName: string
-): Promise<ResponseItem[]> => {
-  switch (listName) {
+  props: RequestProps
+): Promise<AppResponse> => {
+  const response: unknown = await (await getResponse(props)).json();
+
+  switch (props.listName) {
     case ITEMS.animals:
-      return getAnimals(listName);
+      return getAnimals(response as AnimalResponse);
     case ITEMS.astronomicalObjects:
-      return getAstronomicalObject(listName);
+      return getAstronomicalObject(response as AstronomicalObjectResponse);
     case ITEMS.bookCollections:
-      return getBookCollections(listName);
+      return getBookCollections(response as BookCollectionResponse);
     case ITEMS.bookSeries:
-      return getBookSeries(listName);
+      return getBookSeries(response as BookSeriesResponse);
     case ITEMS.books:
-      return getBooks(listName);
+      return getBooks(response as BookResponse);
     case ITEMS.characters:
-      return getCharacters(listName);
+      return getCharacters(response as CharacterResponse);
     case ITEMS.comicCollections:
-      return getComicCollections(listName);
+      return getComicCollections(response as ComicCollectionResponse);
     case ITEMS.comicSeries:
-      return getComicSeries(listName);
+      return getComicSeries(response as ComicSeriesResponse);
     case ITEMS.comicStrips:
-      return getComicStrips(listName);
+      return getComicStrips(response as ComicStripResponse);
     case ITEMS.comics:
-      return getComics(listName);
+      return getComics(response as ComicResponse);
     case ITEMS.companies:
-      return getCompanies(listName);
+      return getCompanies(response as CompanyResponse);
     case ITEMS.conflicts:
-      return getConflicts(listName);
+      return getConflicts(response as ConflictsResponse);
     case ITEMS.elements:
-      return getElements(listName);
+      return getElements(response as ElementResponse);
     case ITEMS.episodes:
-      return getEpisodes(listName);
+      return getEpisodes(response as EpisodeResponse);
     case ITEMS.foods:
-      return getFoods(listName);
+      return getFoods(response as FoodResponse);
     case ITEMS.literaturePieces:
-      return getLiteraturePieces(listName);
+      return getLiteraturePieces(response as LiteraturePieceResponse);
     case ITEMS.locations:
-      return getLocations(listName);
+      return getLocations(response as LocationResponse);
     case ITEMS.magazineSeries:
-      return getMagazineSeries(listName);
+      return getMagazineSeries(response as MagazineSeriesResponse);
     case ITEMS.magazines:
-      return getMagazines(listName);
+      return getMagazines(response as MagazineResponse);
     case ITEMS.materials:
-      return getMaterials(listName);
+      return getMaterials(response as MaterialsResponse);
     case ITEMS.medicalConditions:
-      return getMedicalConditions(listName);
+      return getMedicalConditions(response as MedicalConditionResponse);
     case ITEMS.movies:
-      return getMovies(listName);
+      return getMovies(response as MovieResponse);
     case ITEMS.occupations:
-      return getOccupations(listName);
+      return getOccupations(response as OccupationResponse);
     case ITEMS.organizations:
-      return getOrganizations(listName);
+      return getOrganizations(response as OrganizationResponse);
     case ITEMS.performers:
-      return getPerformers(listName);
+      return getPerformers(response as PerformerResponse);
     case ITEMS.seasons:
-      return getSeasons(listName);
+      return getSeasons(response as SeasonResponse);
     case ITEMS.series:
-      return getSeries(listName);
+      return getSeries(response as SeriesResponse);
     case ITEMS.soundtracks:
-      return getSoundtracks(listName);
+      return getSoundtracks(response as SoundtrackResponse);
     case ITEMS.spacecraftClasses:
-      return getSpacecraftClasses(listName);
+      return getSpacecraftClasses(response as SpacecraftClassResponse);
     case ITEMS.spacecrafts:
-      return getSpacecrafts(listName);
+      return getSpacecrafts(response as SpacecraftResponse);
     case ITEMS.species:
-      return getSpecies(listName);
+      return getSpecies(response as SpeciesResponse);
     case ITEMS.staffMembers:
-      return getStaffMembers(listName);
+      return getStaffMembers(response as StaffMemberResponse);
     case ITEMS.technologyPieces:
-      return getTechnologyPieces(listName);
+      return getTechnologyPieces(response as TechnologyPieceResponse);
     case ITEMS.titles:
-      return getTitles(listName);
+      return getTitles(response as TitleResponse);
     case ITEMS.tradingCardDecks:
-      return getTradingCardDecks(listName);
+      return getTradingCardDecks(response as TradingCardDecksResponse);
     case ITEMS.tradingCardSets:
-      return getTradingCardSets(listName);
+      return getTradingCardSets(response as TradingCardSetResponse);
     case ITEMS.tradingCards:
-      return getTradingCards(listName);
+      return getTradingCards(response as TradingCardResponse);
     case ITEMS.videoGames:
-      return getVideoGames(listName);
+      return getVideoGames(response as VideoGameResponse);
     case ITEMS.videoReleases:
-      return getVideoReleases(listName);
+      return getVideoReleases(response as VideoReleaseResponse);
     case ITEMS.weapons:
-      return getWeapons(listName);
+      return getWeapons(response as WeaponResponse);
     default:
       console.error('no such search item');
   }
@@ -188,12 +206,18 @@ const createEndpoint = (listName: string): string => {
   return list.join('').slice(0, -1);
 };
 
-const getResponseItems = <T extends { name?: string; title?: string }>(
+const getResponseItems = <
+  T extends { uid?: string; name?: string; title?: string },
+>(
   data: T[]
 ): ResponseItem[] => {
   const values: ResponseItem[] = [];
   data.forEach((item) => {
-    const value: ResponseItem = { name: '', description: [] };
+    const value: ResponseItem = {
+      name: '',
+      description: [],
+      uid: item.uid ?? '',
+    };
     if (Object.keys(item).find((key) => key === 'name')) {
       if (!item.name) {
         throw new Error();
@@ -239,514 +263,576 @@ const splitKey = (key: string): string => {
     .toLowerCase();
 };
 
-// const getAnimals = async (listName: string): Promise<ResponseItem[]> => {
-//   try {
-//     const response = (await (
-//       await getResponse(listName)
-//     ).json()) as AnimalResponse;
-//     const property:Animal [] = Object.entries(response).filter(([k,]) => k !== 'sort' && k !== 'page').map(([, v]) => v);
-//     console.log(property)
-//     return getResponseItems(property);
-//   } catch (error) {
-//     console.error(error);
-//   }
-//   throw new Error();
-// };
-
-const getAnimals = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as AnimalResponse;
-    return getResponseItems(response.animals);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getAnimals = (response: AnimalResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.animals);
+  return appResponse;
 };
 
-const getAstronomicalObject = async (
-  listName: string
-): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as AstronomicalObjectResponse;
-    return getResponseItems(response.astronomicalObjects);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getAstronomicalObject = (
+  response: AstronomicalObjectResponse
+): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.astronomicalObjects);
+  return appResponse;
 };
 
-const getBookCollections = async (
-  listName: string
-): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as BookCollectionResponse;
-    return getResponseItems(response.bookCollections);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getBookCollections = (response: BookCollectionResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.bookCollections);
+  return appResponse;
 };
 
-const getBooks = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as BookResponse;
-    return getResponseItems(response.books);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getBooks = (response: BookResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.books);
+  return appResponse;
 };
 
-const getBookSeries = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as BookSeriesResponse;
-    return getResponseItems(response.bookSeries);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getBookSeries = (response: BookSeriesResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.bookSeries);
+  return appResponse;
 };
 
-const getComics = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as ComicResponse;
-    return getResponseItems(response.comics);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getComics = (response: ComicResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.comics);
+  return appResponse;
 };
 
-const getConflicts = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as ConflictsResponse;
-    return getResponseItems(response.conflicts);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getConflicts = (response: ConflictsResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.conflicts);
+  return appResponse;
 };
 
-const getCharacters = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as CharacterResponse;
-    return getResponseItems(response.characters);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getCharacters = (response: CharacterResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.characters);
+  return appResponse;
 };
 
-const getComicCollections = async (
-  listName: string
-): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as ComicCollectionResponse;
-    return getResponseItems(response.comicCollections);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getComicCollections = (
+  response: ComicCollectionResponse
+): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.comicCollections);
+  return appResponse;
 };
 
-const getCompanies = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as CompanyResponse;
-    return getResponseItems(response.companies);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getCompanies = (response: CompanyResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.companies);
+  return appResponse;
 };
 
-const getComicSeries = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as ComicSeriesResponse;
-    return getResponseItems(response.comicSeries);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getComicSeries = (response: ComicSeriesResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.comicSeries);
+  return appResponse;
 };
 
-const getComicStrips = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as ComicStripResponse;
-    return getResponseItems(response.comicStrips);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getComicStrips = (response: ComicStripResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.comicStrips);
+  return appResponse;
 };
 
-const getElements = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as ElementResponse;
-    return getResponseItems(response.elements);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getElements = (response: ElementResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.elements);
+  return appResponse;
 };
 
-const getEpisodes = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as EpisodeResponse;
-    return getResponseItems(response.episodes);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getEpisodes = (response: EpisodeResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.episodes);
+  return appResponse;
 };
 
-const getFoods = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as FoodResponse;
-    return getResponseItems(response.foods);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getFoods = (response: FoodResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.foods);
+  return appResponse;
 };
 
-const getLiteraturePieces = async (
-  listName: string
-): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as LiteraturePieceResponse;
-    return getResponseItems(response.literature);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getLiteraturePieces = (
+  response: LiteraturePieceResponse
+): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.literature);
+  return appResponse;
 };
 
-const getLocations = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as LocationResponse;
-    return getResponseItems(response.locations);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getLocations = (response: LocationResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.locations);
+  return appResponse;
 };
 
-const getMagazines = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as MagazineResponse;
-    return getResponseItems(response.magazines);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getMagazines = (response: MagazineResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.magazines);
+  return appResponse;
 };
 
-const getMedicalConditions = async (
-  listName: string
-): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as MedicalConditionResponse;
-    return getResponseItems(response.medicalConditions);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getMedicalConditions = (
+  response: MedicalConditionResponse
+): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.medicalConditions);
+  return appResponse;
 };
 
-const getMovies = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as MovieResponse;
-    return getResponseItems(response.movies);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getMovies = (response: MovieResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.movies);
+  return appResponse;
 };
 
-const getMagazineSeries = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as MagazineSeriesResponse;
-    return getResponseItems(response.magazineSeries);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getMagazineSeries = (response: MagazineSeriesResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.magazineSeries);
+  return appResponse;
 };
 
-const getMaterials = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as MaterialsResponse;
-    return getResponseItems(response.materials);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getMaterials = (response: MaterialsResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.materials);
+  return appResponse;
 };
 
-const getOccupations = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as OccupationResponse;
-    return getResponseItems(response.occupations);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getOccupations = (response: OccupationResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.occupations);
+  return appResponse;
 };
 
-const getOrganizations = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as OrganizationResponse;
-    return getResponseItems(response.organizations);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getOrganizations = (response: OrganizationResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.organizations);
+  return appResponse;
 };
 
-const getPerformers = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as PerformerResponse;
-    return getResponseItems(response.performers);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getPerformers = (response: PerformerResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.performers);
+  return appResponse;
 };
 
-const getSeasons = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as SeasonResponse;
-    return getResponseItems(response.seasons);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getSeasons = (response: SeasonResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.seasons);
+  return appResponse;
 };
 
-const getSpacecraftClasses = async (
-  listName: string
-): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as SpacecraftClassResponse;
-    return getResponseItems(response.spacecraftClasses);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getSpacecraftClasses = (
+  response: SpacecraftClassResponse
+): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.spacecraftClasses);
+  return appResponse;
 };
 
-const getSeries = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as SeriesResponse;
-    return getResponseItems(response.series);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getSeries = (response: SeriesResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.series);
+  return appResponse;
 };
 
-const getSoundtracks = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as SoundtrackResponse;
-    return getResponseItems(response.soundtracks);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getSoundtracks = (response: SoundtrackResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.soundtracks);
+  return appResponse;
 };
 
-const getSpecies = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as SpeciesResponse;
-    return getResponseItems(response.species);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getSpecies = (response: SpeciesResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.species);
+  return appResponse;
 };
 
-const getSpacecrafts = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as SpacecraftResponse;
-    return getResponseItems(response.spacecrafts);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getSpacecrafts = (response: SpacecraftResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.spacecrafts);
+  return appResponse;
 };
 
-const getStaffMembers = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as StaffMemberResponse;
-    return getResponseItems(response.staff);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getStaffMembers = (response: StaffMemberResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.staff);
+  return appResponse;
 };
 
-const getTradingCards = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as TradingCardResponse;
-    return getResponseItems(response.tradingCards);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getTradingCards = (response: TradingCardResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.tradingCards);
+  return appResponse;
 };
 
-const getTechnologyPieces = async (
-  listName: string
-): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as TechnologyPieceResponse;
-    return getResponseItems(response.technology);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getTechnologyPieces = (
+  response: TechnologyPieceResponse
+): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.technology);
+  return appResponse;
 };
 
-const getTitles = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as TitleResponse;
-    return getResponseItems(response.titles);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getTitles = (response: TitleResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.titles);
+  return appResponse;
 };
 
-const getTradingCardDecks = async (
-  listName: string
-): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as TradingCardDecksResponse;
-    return getResponseItems(response.tradingCardDecks);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getTradingCardDecks = (
+  response: TradingCardDecksResponse
+): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.tradingCardDecks);
+  return appResponse;
 };
 
-const getTradingCardSets = async (
-  listName: string
-): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as TradingCardSetResponse;
-    return getResponseItems(response.tradingCardSets);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getTradingCardSets = (response: TradingCardSetResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.tradingCardSets);
+  return appResponse;
 };
 
-const getVideoGames = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as VideoGameResponse;
-    return getResponseItems(response.videoGames);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getVideoGames = (response: VideoGameResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.videoGames);
+  return appResponse;
 };
 
-const getVideoReleases = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as VideoReleaseResponse;
-    return getResponseItems(response.videoReleases);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getVideoReleases = (response: VideoReleaseResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.videoReleases);
+  return appResponse;
 };
 
-const getWeapons = async (listName: string): Promise<ResponseItem[]> => {
-  try {
-    const response = (await (
-      await getResponse(listName)
-    ).json()) as WeaponResponse;
-    return getResponseItems(response.weapons);
-  } catch (error) {
-    console.error(error);
-  }
-  throw new Error();
+const getWeapons = (response: WeaponResponse): AppResponse => {
+  const appResponse: AppResponse = {
+    pageInfo: {
+      pageNumber: response.page.pageNumber,
+      totalPages: response.page.totalPages,
+      firstPage: response.page.firstPage,
+      lastPage: response.page.lastPage,
+    },
+    items: [],
+  };
+  appResponse.items = getResponseItems(response.weapons);
+  return appResponse;
 };

@@ -1,59 +1,33 @@
+import type { JSX } from 'react';
 import './App.css';
-import { Results } from './components/results/Results';
-import React from 'react';
-import { TopControls } from './components/top-controls/TopControls';
-import { ErrorButton } from './components/ErrorButton';
-import type { ResponseItem } from './api/interfaces/Response';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HomePage } from './pages/HomePage';
+import { AboutPage } from './pages/AboutPage';
+import { ErrorPage } from './pages/ErrorPage';
 import { ErrorBoundary } from './ErrorBoundary';
-import { getItems } from './api/getItems';
+import { Details } from './components/Details';
 
-type AppState = {
-  items: ResponseItem[];
-  isLoading: boolean;
+export const App = (): JSX.Element => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<HomePage></HomePage>}>
+          <Route
+            index
+            element={
+              <ErrorBoundary
+                message={'Something went wrong. Please, reload this page.'}
+              ></ErrorBoundary>
+            }
+          ></Route>
+          <Route
+            path="details/:name/:description"
+            element={<Details></Details>}
+          ></Route>
+        </Route>
+        <Route path="about" element={<AboutPage />}></Route>
+        <Route path="*" element={<ErrorPage />}></Route>
+      </Routes>
+    </BrowserRouter>
+  );
 };
-
-type AppProps = object;
-
-export class App extends React.Component<AppProps, AppState> {
-  constructor(props: AppProps) {
-    super(props);
-    this.state = { items: [], isLoading: false };
-  }
-
-  componentDidMount(): void {
-    const lastSearch = localStorage.getItem('last-search');
-    if (lastSearch) {
-      this.setState({ isLoading: true });
-      getItems(lastSearch).then((items) => this.handleItems(items, false));
-    }
-  }
-
-  handleItems = (items: ResponseItem[], isLoading: boolean) => {
-    this.setState({ items: items, isLoading: isLoading });
-  };
-
-  render() {
-    return (
-      <>
-        <ErrorBoundary message="Something went wrong. Please, reload this page.">
-          <Header></Header>
-          <main>
-            <TopControls
-              className="block search-block"
-              transferItems={this.handleItems}
-            ></TopControls>
-            <Results
-              className="block block-results"
-              items={this.state.items}
-              isLoading={this.state.isLoading}
-            ></Results>
-            <ErrorButton></ErrorButton>
-          </main>
-          <Footer></Footer>
-        </ErrorBoundary>
-      </>
-    );
-  }
-}

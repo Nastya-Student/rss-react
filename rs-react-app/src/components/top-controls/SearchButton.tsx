@@ -1,31 +1,67 @@
-import React, { type ReactNode } from 'react';
+import type { JSX } from 'react';
 import { getItems } from '../../api/getItems';
-import type { ResponseItem } from '../../api/interfaces/Response';
+import type { ResponseItem, ResponsePage } from '../../api/interfaces/Response';
+import { LOCAL_STORAGE } from '../../constants';
 
 type SearchButtonProps = {
-  children: ReactNode;
   searchKey: string;
-  onGetItems: (items: ResponseItem[], isLoading: boolean) => void;
+  onGetItems: (
+    items: ResponseItem[],
+    pageInfo: ResponsePage,
+    isLoading: boolean
+  ) => void;
+  disabled?: boolean;
+  isNameSearch?: boolean;
 };
 
-export class SearchButton extends React.Component<SearchButtonProps> {
-  constructor(props: SearchButtonProps) {
-    super(props);
-  }
-
-  onClickBtn = () => {
-    const value = this.props.searchKey.trim();
-    if (localStorage.getItem('last-search') === value) {
+export const SearchButton = (props: SearchButtonProps): JSX.Element => {
+  const onClickBtn = () => {
+    const value = props.searchKey.trim();
+    if (localStorage.getItem(LOCAL_STORAGE.lastSearch) === value) {
       return;
     }
-    localStorage.setItem('last-search', value);
-    this.props.onGetItems([], true);
-    getItems(value)
-      .then((items) => this.props.onGetItems(items, false))
-      .catch(() => this.props.onGetItems([], false));
+    if (!props.isNameSearch) {
+      localStorage.setItem(LOCAL_STORAGE.lastSearch, value);
+    }
+
+    props.onGetItems(
+      [],
+      {
+        pageNumber: 0,
+        totalPages: 0,
+        firstPage: false,
+        lastPage: false,
+      },
+      true
+    );
+
+    getItems({
+      listName: props.isNameSearch
+        ? (localStorage.getItem(LOCAL_STORAGE.lastSearch) ?? '')
+        : value,
+      pageNumber: 0,
+      name: props.isNameSearch ? value : '',
+    })
+      .then((items) => {
+        props.onGetItems(items.items, items.pageInfo, false);
+      })
+      .catch(() =>
+        props.onGetItems(
+          [],
+          {
+            pageNumber: 0,
+            totalPages: 0,
+            firstPage: true,
+            lastPage: true,
+          },
+          false
+        )
+      );
   };
 
-  render() {
-    return <button onClick={this.onClickBtn}>{this.props.children}</button>;
-  }
-}
+  return (
+    <button onClick={onClickBtn} disabled={props.disabled}>
+      Search
+    </button>
+  );
+};

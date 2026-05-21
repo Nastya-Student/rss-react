@@ -1,67 +1,71 @@
-import React from 'react';
+import { useState, type JSX } from 'react';
 import { SearchButton } from './SearchButton';
 import { SearchInput } from './SearchInput';
-import type { ResponseItem } from '../../api/interfaces/Response';
+import type { ResponseItem, ResponsePage } from '../../api/interfaces/Response';
 
 type TopControlsProps = {
   className: string;
-  transferItems: (items: ResponseItem[], isLoading: boolean) => void;
+  transferItems: (
+    items: ResponseItem[],
+    pageInfo: ResponsePage,
+    isLoading: boolean
+  ) => void;
 };
 
-type TopControlState = {
-  searchKey: string;
-  items: string[];
-};
+export const TopControls = (props: TopControlsProps): JSX.Element => {
+  const [searchKey, setSearchKey] = useState(
+    localStorage.getItem('last-search') ?? ''
+  );
 
-export class TopControls extends React.Component<
-  TopControlsProps,
-  TopControlState
-> {
-  constructor(props: TopControlsProps) {
-    super(props);
-    this.state = {
-      searchKey: localStorage.getItem('last-search') ?? '',
-      items: [],
-    };
-  }
+  const [disabledValue, setDisabledValue] = useState(true);
 
-  handleInputValue = (value: string): void => {
-    this.setState({ searchKey: value });
+  const handleInputValue = (value: string): void => {
+    setSearchKey(value);
   };
 
-  handleGetItems = (items: ResponseItem[], isLoading: boolean): void => {
-    this.props.transferItems(items, isLoading);
+  const handleGetItems = (
+    items: ResponseItem[],
+    pageInfo: ResponsePage,
+    isLoading: boolean
+  ): void => {
+    props.transferItems(items, pageInfo, isLoading);
+    setDisabledValue(false);
   };
 
-  render() {
-    return (
-      <div className={this.props.className}>
-        <div className="search-form">
-          <SearchInput
-            id={'search-input'}
-            type={'text'}
-            placeholder={'select smth'}
-            initialValue={this.state.searchKey}
-            onChange={this.handleInputValue}
-          ></SearchInput>
-          <SearchButton
-            searchKey={this.state.searchKey}
-            onGetItems={this.handleGetItems}
-          >
-            Search
-          </SearchButton>
-        </div>
-
-        <div className="search-form search-by-name-form">
-          <input
-            id="search-by-name-input"
-            type="text"
-            placeholder="search by name"
-            disabled
-          ></input>
-          <button disabled>Search</button>
-        </div>
+  return (
+    <div className={props.className}>
+      <div className="search-form">
+        <SearchInput
+          id={'search-input'}
+          type={'text'}
+          placeholder={'select smth'}
+          initialValue={searchKey}
+          onChange={handleInputValue}
+          isSelect={true}
+          list="suggestions"
+        ></SearchInput>
+        <SearchButton
+          searchKey={searchKey}
+          onGetItems={handleGetItems}
+        ></SearchButton>
       </div>
-    );
-  }
-}
+
+      <div className="search-form search-by-name-form">
+        <SearchInput
+          id="search-by-name-input"
+          type="text"
+          placeholder="search by name"
+          disabled={disabledValue}
+          onChange={handleInputValue}
+          isSelect={false}
+        ></SearchInput>
+        <SearchButton
+          disabled={disabledValue}
+          searchKey={searchKey}
+          onGetItems={handleGetItems}
+          isNameSearch={true}
+        ></SearchButton>
+      </div>
+    </div>
+  );
+};

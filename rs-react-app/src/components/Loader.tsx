@@ -1,7 +1,5 @@
-import React from 'react';
+import { type JSX } from 'react';
 
-export class Loader extends React.Component {
-  render() {
-    return <span className="loader"></span>;
-  }
-}
+export const Loader = (): JSX.Element => {
+  return <span className="loader"></span>;
+};

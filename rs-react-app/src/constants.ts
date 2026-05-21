@@ -1,5 +1,9 @@
 export const BASE_URL = 'https://stapi.co/api/v1/rest/';
 
+export const LOCAL_STORAGE = {
+  lastSearch: 'last-search',
+};
+
 export const ITEMS = {
   animals: 'animals',
   astronomicalObjects: 'astronomical objects',

@@ -1,96 +1,57 @@
-import React, { type ChangeEvent } from 'react';
+import { useState, type ChangeEvent, type JSX } from 'react';
+import { ITEMS } from '../../constants';
 
 type SearchInputProps = {
   id: string;
   type: 'text';
   placeholder: string;
-  initialValue: string;
+  initialValue?: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
+  isSelect?: boolean;
+  list?: string;
 };
 
-type SearchInputState = {
-  value: string;
-};
+export const SearchInput = (props: SearchInputProps): JSX.Element => {
+  const [value, setValue] = useState(props.initialValue);
 
-export class SearchInput extends React.Component<
-  SearchInputProps,
-  SearchInputState
-> {
-  constructor(props: SearchInputProps) {
-    super(props);
-    this.state = {
-      value: props.initialValue,
-    };
-  }
-
-  handleInput = (event: ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ value: event.target.value });
-    this.props.onChange(event.target.value);
+  const handleInput = (event: ChangeEvent<HTMLInputElement>): void => {
+    setValue(event.target.value);
+    props.onChange(event.target.value);
   };
 
-  handleInputOnfocus = (): void => {
-    const tempValue = this.state.value;
-    this.setState({ value: '' });
+  const handleInputOnfocus = (): void => {
+    if (!props.isSelect) {
+      return;
+    }
+    const tempValue = value;
+    setValue('');
     setTimeout(() => {
-      this.setState({ value: tempValue });
+      setValue(tempValue);
     }, 1000);
   };
 
-  render() {
-    return (
-      <div>
-        <input
-          id={this.props.id}
-          type={this.props.type}
-          placeholder={this.props.placeholder}
-          value={this.state.value}
-          onChange={this.handleInput}
-          list="suggestions"
-          onFocus={this.handleInputOnfocus}
-        ></input>
+  return (
+    <div>
+      <input
+        id={props.id}
+        type={props.type}
+        placeholder={props.placeholder}
+        value={value}
+        onChange={handleInput}
+        list={props.list}
+        disabled={props.disabled}
+        onFocus={handleInputOnfocus}
+      ></input>
+      {props.isSelect ? (
         <datalist id="suggestions">
-          <option value="animals" />
-          <option value="astronomical objects" />
-          <option value="book collections" />
-          <option value="books" />
-          <option value="book series" />
-          <option value="comics" />
-          <option value="conflicts" />
-          <option value="characters" />
-          <option value="comic collections" />
-          <option value="companies" />
-          <option value="comic series" />
-          <option value="comic strips" />
-          <option value="elements" />
-          <option value="episodes" />
-          <option value="foods" />
-          <option value="literature pieces" />
-          <option value="locations" />
-          <option value="magazines" />
-          <option value="medical conditions" />
-          <option value="movies" />
-          <option value="magazine series" />
-          <option value="materials" />
-          <option value="occupations" />
-          <option value="organizations" />
-          <option value="performers" />
-          <option value="seasons" />
-          <option value="spacecraft classes" />
-          <option value="series" />
-          <option value="soundtracks" />
-          <option value="species" />
-          <option value="spacecrafts" />
-          <option value="staff members" />
-          <option value="trading cards" />
-          <option value="technology pieces" />
-          <option value="titles" />
-          <option value="trading card decks" />
-          <option value="trading card sets" />
-          <option value="video games" />
-          <option value="video releases" />
-          <option value="weapons" />
+          {Object.values(ITEMS).map((item) => (
+            <option key={item} value={item}></option>
+          ))}
         </datalist>
-      </div>
-    );
-  }
-}
+      ) : (
+        <></>
+      )}
+    </div>
+  );
+};

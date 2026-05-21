@@ -3,7 +3,7 @@ main {
   gap: 1rem;
   align-items: center;
   flex-direction: column;
-  padding: 1rem;
+  padding: 2rem;
   flex-grow: 1;
   /* overflow: hidden; */
 }
@@ -14,7 +14,23 @@ footer {
   display: flex;
   align-items: center;
   padding: 1rem;
-  justify-content: center;
+}
+
+header {
+  justify-content: space-between;
+}
+
+footer {
+  justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
+  color: var(--text);
+  &:hover {
+    cursor: pointer;
+    text-shadow: var(--button-shadow-hover);
+  }
 }
 
 button,
@@ -55,6 +71,15 @@ input {
   }
 }
 
+.about-block {
+  flex-direction: column;
+  text-align: left;
+}
+
+.about-title {
+  text-align: left;
+}
+
 .search-block {
   display: flex;
   flex-direction: column;
@@ -69,6 +94,8 @@ input {
 .block-results {
   overflow-y: scroll;
   scrollbar-width: none;
+  position: relative;
+  z-index: 0;
 }
 
 .block-results::-webkit-scrollbar {
@@ -78,7 +105,7 @@ input {
 .results-list {
   list-style: none;
   width: 100%;
-  gap: 2rem;
+  gap: 1rem;
   display: flex;
   flex-direction: column;
   padding-left: 0;
@@ -90,6 +117,10 @@ input {
   width: 100%;
   box-shadow: var(--box-shadow);
   padding: 1rem;
+  &:hover {
+    cursor: pointer;
+    background-color: var(--bg-hover);
+  }
 }
 
 .list-item-description,
@@ -118,19 +149,69 @@ input {
 .loader {
   width: 48px;
   height: 48px;
-  border: 5px solid #fff;
+  border: 5px solid var(--text);
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+}
 
-  @keyframes rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
   }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.error-page-title {
+  margin: auto;
+  font-size: xx-large;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: center;
+}
+
+.details {
+  flex-direction: column;
+  position: fixed;
+  z-index: 3;
+  width: 12rem;
+  min-height: 7rem;
+
+  display: flex;
+  padding: 1rem;
+  justify-content: space-between;
+  background-color: var(--bg);
+  gap: 2rem;
+  border: 1px solid var(--border);
+  right: 3rem;
+  top: 30%;
+}
+
+.details-name {
+  border-bottom: 1px solid var(--border);
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.error-button {
+  margin-top: 1rem;
+}
+
+.close-hint {
+  bottom: 105%;
+  position: absolute;
+  z-index: 1;
+  opacity: 0.5;
+  font-size: medium;
 }

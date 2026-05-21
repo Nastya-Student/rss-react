@@ -1,11 +1,40 @@
-import React from 'react';
+import { type JSX } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export class Header extends React.Component {
-  render() {
+export const Header = (): JSX.Element => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === '/';
+
+  const handleAbout = () => {
+    navigate('about');
+  };
+
+  const handleHome = () => {
+    navigate('/');
+  };
+
+  if (isHomePage) {
     return (
       <header>
-        <h1>Star Trek objects</h1>
+        <div></div>
+        <div>
+          <h1>Star Trek </h1>
+          <p>(Memory Alpha data)</p>
+        </div>
+
+        <button onClick={handleAbout}>About</button>
       </header>
     );
   }
-}
+  return (
+    <header>
+      <div></div>
+      <div>
+        <h1>Star Trek </h1>
+        <p>(Memory Alpha data)</p>
+      </div>
+      <button onClick={handleHome}>Home</button>
+    </header>
+  );
+};

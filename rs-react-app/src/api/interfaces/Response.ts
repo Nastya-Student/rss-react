@@ -40,8 +40,21 @@ import type { ElementI } from './items/Elements';
 import type { LocationI } from './items/Locations';
 
 export type ResponseItem = {
+  uid: string;
   name: string;
   description: string[];
+};
+
+export type ResponsePage = {
+  pageNumber: number;
+  totalPages: number;
+  firstPage: boolean;
+  lastPage: boolean;
+};
+
+export type AppResponse = {
+  pageInfo: ResponsePage;
+  items: ResponseItem[];
 };
 
 export type Page = {
