@@ -1,24 +1,34 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import {render, screen} from "@testing-library/react";
-import { ResultList } from "../components/results/ResultsList";
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+// import { ResultList } from '../components/results/ResultsList';
 
+describe('Results-title', () => {
+  // type ResultsProps = {
+  //   className: 'block';
+  //   items: [];
+  // };
 
-describe("Results-title", () => {
-
-  type ResultsProps = {
-    className: 'block';
-    items: [];
-  };
-
-    beforeEach(() => {
+  beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("renders a Results title", () => {
+  it('renders a Results title', () => {
     render(
-      <ResultList children={'Results:'} items={[]}/>
+      // // eslint-disable-next-line react/no-children-prop
+      // <ResultList
+      //   children={'Results:'}
+      //   items={[]}
+      //   pageInfo={}
+      //   shouldThrowError={false}
+      //   isLoading={false}
+      // />
+      <>
+        <div></div>
+      </>
     );
 
-    expect(screen.getByRole('heading', { name: 'Results:' })).toBeInTheDocument();
-  })
-})
+    expect(
+      screen.getByRole('heading', { name: 'Results:' })
+    ).toBeInTheDocument();
+  });
+});

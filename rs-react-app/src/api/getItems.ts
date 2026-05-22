@@ -76,85 +76,85 @@ export const getSpecificResponse = async (
   const response: unknown = await (await getResponse(props)).json();
 
   switch (props.listName) {
-    case ITEMS.animals:
+    case ITEMS.animal:
       return getAnimals(response as AnimalResponse);
-    case ITEMS.astronomicalObjects:
+    case ITEMS.astronomicalObject:
       return getAstronomicalObject(response as AstronomicalObjectResponse);
-    case ITEMS.bookCollections:
+    case ITEMS.bookCollection:
       return getBookCollections(response as BookCollectionResponse);
     case ITEMS.bookSeries:
       return getBookSeries(response as BookSeriesResponse);
-    case ITEMS.books:
+    case ITEMS.book:
       return getBooks(response as BookResponse);
-    case ITEMS.characters:
+    case ITEMS.character:
       return getCharacters(response as CharacterResponse);
-    case ITEMS.comicCollections:
+    case ITEMS.comicCollection:
       return getComicCollections(response as ComicCollectionResponse);
     case ITEMS.comicSeries:
       return getComicSeries(response as ComicSeriesResponse);
-    case ITEMS.comicStrips:
+    case ITEMS.comicStrip:
       return getComicStrips(response as ComicStripResponse);
     case ITEMS.comics:
       return getComics(response as ComicResponse);
-    case ITEMS.companies:
+    case ITEMS.company:
       return getCompanies(response as CompanyResponse);
-    case ITEMS.conflicts:
+    case ITEMS.conflict:
       return getConflicts(response as ConflictsResponse);
-    case ITEMS.elements:
+    case ITEMS.element:
       return getElements(response as ElementResponse);
-    case ITEMS.episodes:
+    case ITEMS.episode:
       return getEpisodes(response as EpisodeResponse);
-    case ITEMS.foods:
+    case ITEMS.food:
       return getFoods(response as FoodResponse);
-    case ITEMS.literaturePieces:
+    case ITEMS.literature:
       return getLiteraturePieces(response as LiteraturePieceResponse);
-    case ITEMS.locations:
+    case ITEMS.location:
       return getLocations(response as LocationResponse);
     case ITEMS.magazineSeries:
       return getMagazineSeries(response as MagazineSeriesResponse);
-    case ITEMS.magazines:
+    case ITEMS.magazine:
       return getMagazines(response as MagazineResponse);
-    case ITEMS.materials:
+    case ITEMS.material:
       return getMaterials(response as MaterialsResponse);
-    case ITEMS.medicalConditions:
+    case ITEMS.medicalCondition:
       return getMedicalConditions(response as MedicalConditionResponse);
-    case ITEMS.movies:
+    case ITEMS.movie:
       return getMovies(response as MovieResponse);
-    case ITEMS.occupations:
+    case ITEMS.occupation:
       return getOccupations(response as OccupationResponse);
-    case ITEMS.organizations:
+    case ITEMS.organization:
       return getOrganizations(response as OrganizationResponse);
-    case ITEMS.performers:
+    case ITEMS.performer:
       return getPerformers(response as PerformerResponse);
-    case ITEMS.seasons:
+    case ITEMS.season:
       return getSeasons(response as SeasonResponse);
     case ITEMS.series:
       return getSeries(response as SeriesResponse);
-    case ITEMS.soundtracks:
+    case ITEMS.soundtrack:
       return getSoundtracks(response as SoundtrackResponse);
-    case ITEMS.spacecraftClasses:
+    case ITEMS.spacecraftClass:
       return getSpacecraftClasses(response as SpacecraftClassResponse);
-    case ITEMS.spacecrafts:
+    case ITEMS.spacecraft:
       return getSpacecrafts(response as SpacecraftResponse);
     case ITEMS.species:
       return getSpecies(response as SpeciesResponse);
-    case ITEMS.staffMembers:
+    case ITEMS.staff:
       return getStaffMembers(response as StaffMemberResponse);
-    case ITEMS.technologyPieces:
+    case ITEMS.technology:
       return getTechnologyPieces(response as TechnologyPieceResponse);
-    case ITEMS.titles:
+    case ITEMS.title:
       return getTitles(response as TitleResponse);
     case ITEMS.tradingCardDecks:
       return getTradingCardDecks(response as TradingCardDecksResponse);
-    case ITEMS.tradingCardSets:
+    case ITEMS.tradingCardSet:
       return getTradingCardSets(response as TradingCardSetResponse);
-    case ITEMS.tradingCards:
+    case ITEMS.tradingCard:
       return getTradingCards(response as TradingCardResponse);
-    case ITEMS.videoGames:
+    case ITEMS.videoGame:
       return getVideoGames(response as VideoGameResponse);
-    case ITEMS.videoReleases:
+    case ITEMS.videoRelease:
       return getVideoReleases(response as VideoReleaseResponse);
-    case ITEMS.weapons:
+    case ITEMS.weapon:
       return getWeapons(response as WeaponResponse);
     default:
       console.error('no such search item');
@@ -163,47 +163,7 @@ export const getSpecificResponse = async (
 };
 
 const createEndpoint = (listName: string): string => {
-  const list = listName.split(' ');
-  if (listName === ITEMS.bookSeries) {
-    return 'bookSeries';
-  }
-  if (listName === ITEMS.comics) {
-    return 'comics';
-  }
-  if (listName === ITEMS.comicSeries) {
-    return 'comicSeries';
-  }
-  if (listName === ITEMS.companies) {
-    return 'company';
-  }
-  if (listName === ITEMS.literaturePieces) {
-    return 'literature';
-  }
-  if (listName === ITEMS.magazineSeries) {
-    return 'magazineSeries';
-  }
-  if (listName === ITEMS.series) {
-    return 'series';
-  }
-  if (listName === ITEMS.spacecraftClasses) {
-    return 'spacecraftClass';
-  }
-  if (listName === ITEMS.species) {
-    return 'species';
-  }
-  if (listName === ITEMS.staffMembers) {
-    return 'staff';
-  }
-  if (listName === ITEMS.technologyPieces) {
-    return 'technology';
-  }
-  for (let i = 1; i < list.length; i += 1) {
-    const word =
-      list[i].substring(0, 1).toUpperCase() +
-      list[i].substring(1, list[i].length);
-    list[i] = word;
-  }
-  return list.join('').slice(0, -1);
+  return Object.entries(ITEMS).find(([, v]) => v === listName)?.[0] ?? '';
 };
 
 const getResponseItems = <
