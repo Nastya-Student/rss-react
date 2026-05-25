@@ -2,6 +2,7 @@ import type { JSX } from 'react';
 import { getItems } from '../../api/getItems';
 import type { ResponseItem, ResponsePage } from '../../api/interfaces/Response';
 import { LOCAL_STORAGE } from '../../constants';
+import { useSearchParams } from 'react-router-dom';
 
 type SearchButtonProps = {
   searchKey: string;
@@ -15,6 +16,9 @@ type SearchButtonProps = {
 };
 
 export const SearchButton = (props: SearchButtonProps): JSX.Element => {
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const onClickBtn = () => {
     const value = props.searchKey.trim();
     if (localStorage.getItem(LOCAL_STORAGE.lastSearch) === value) {
@@ -35,11 +39,13 @@ export const SearchButton = (props: SearchButtonProps): JSX.Element => {
       true
     );
 
+    setSearchParams({pageNumber: "0"});
+
     getItems({
       listName: props.isNameSearch
         ? (localStorage.getItem(LOCAL_STORAGE.lastSearch) ?? '')
         : value,
-      pageNumber: 0,
+      params: searchParams,
       name: props.isNameSearch ? value : '',
     })
       .then((items) => {

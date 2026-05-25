@@ -8,7 +8,8 @@ import { Results } from '../components/results/Results';
 import { ErrorButton } from '../components/ErrorButton';
 import { Footer } from '../components/Footer';
 import { LOCAL_STORAGE } from '../constants';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import { Flyout } from '../components/Flyout';
 
 export const HomePage = (): JSX.Element => {
   const [items, setItems] = useState<ResponseItem[]>([]);
@@ -20,13 +21,14 @@ export const HomePage = (): JSX.Element => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleItems = (
     items: ResponseItem[],
     pageInfo: ResponsePage,
     isLoading: boolean
   ) => {
-    setItems(items); // useEffect
+    setItems(items);
     setIsLoading(isLoading);
     setPageInfo(pageInfo);
   };
@@ -39,11 +41,12 @@ export const HomePage = (): JSX.Element => {
     });
     const lastSearch = localStorage.getItem(LOCAL_STORAGE.lastSearch);
     if (lastSearch) {
+      setSearchParams({pageNumber: '0'});
       const loadItems = async (): Promise<void> => {
         setIsLoading(true);
         await getItems({
           listName: lastSearch,
-          pageNumber: 0,
+          params: searchParams
         })
           .then((items) => handleItems(items.items, items.pageInfo, false))
           .finally(() => setIsLoading(false));
@@ -71,6 +74,8 @@ export const HomePage = (): JSX.Element => {
 
           <ErrorButton></ErrorButton>
         </main>
+        <Flyout selectedItems={5}></Flyout>
+
         <Footer></Footer>
       </ErrorBoundary>
     </>

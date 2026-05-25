@@ -47,7 +47,7 @@ import type {
 
 type RequestProps = {
   listName: string;
-  pageNumber?: number;
+  params: URLSearchParams;
   name?: string;
 };
 
@@ -58,7 +58,7 @@ export const getItems = async (props: RequestProps): Promise<AppResponse> => {
 
 export const getResponse = async (props: RequestProps): Promise<Response> => {
   const data = await fetch(
-    `${BASE_URL}${createEndpoint(props.listName)}/search?pageNumber=${props.pageNumber ?? 0}`,
+    `${BASE_URL}${createEndpoint(props.listName)}/search?${props.params.toString()}`,
     {
       method: 'POST',
       headers: {

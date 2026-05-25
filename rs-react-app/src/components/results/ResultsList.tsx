@@ -4,7 +4,7 @@ import { Loader } from '../Loader';
 import { Pagination } from '../Pagination';
 import { getItems } from '../../api/getItems';
 import { LOCAL_STORAGE } from '../../constants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 type ResultListProps = {
   children: ReactNode;
@@ -22,6 +22,7 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
   );
   const [isLoading, setIsLoading] = useState(props.isLoading);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const loadData = async (): Promise<void> => {
@@ -58,10 +59,11 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
 
   const getData = (pageNumber: number): void => {
     setShouldThrowError(false);
+    setSearchParams({pageNumber: pageNumber.toString()});
 
     getItems({
       listName: localStorage.getItem(LOCAL_STORAGE.lastSearch) ?? '',
-      pageNumber: pageNumber,
+      params: new URLSearchParams({pageNumber: pageNumber.toString()}),
     })
       .then((response) => {
         setItems(response.items);
@@ -122,6 +124,8 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
               </div>
             ))}
           </div>
+            <input type='checkbox' className='favorite-checkbox' onClick={(e) => e.stopPropagation()}></input>
+
         </li>
       ))}
     </ul>

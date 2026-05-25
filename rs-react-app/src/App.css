@@ -197,6 +197,13 @@ input {
   border-bottom: 1px solid var(--border);
 }
 
+.details-name-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 30%;
+}
+
 .pagination {
   display: flex;
   justify-content: space-between;
@@ -214,4 +221,26 @@ input {
   z-index: 1;
   opacity: 0.5;
   font-size: medium;
+}
+
+.favorite-checkbox {
+  height: 10px;
+ appearance: none;
+ background-color: var(--text);
+ &:checked {
+  background-color: var(--button-shadow)
+ }
+}
+
+.selected-items-block {
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  padding: 2rem;
+  backdrop-filter: blur(15px);  
+  min-width: 70%;
+  margin: auto;
+  align-items: center;
 }
