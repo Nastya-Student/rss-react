@@ -59,11 +59,11 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
 
   const getData = (pageNumber: number): void => {
     setShouldThrowError(false);
-    setSearchParams({pageNumber: pageNumber.toString()});
+    setSearchParams({ pageNumber: pageNumber.toString() });
 
     getItems({
       listName: localStorage.getItem(LOCAL_STORAGE.lastSearch) ?? '',
-      params: new URLSearchParams({pageNumber: pageNumber.toString()}),
+      params: new URLSearchParams({ pageNumber: pageNumber.toString() }),
     })
       .then((response) => {
         setItems(response.items);
@@ -124,8 +124,11 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
               </div>
             ))}
           </div>
-            <input type='checkbox' className='favorite-checkbox' onClick={(e) => e.stopPropagation()}></input>
-
+          <input
+            type="checkbox"
+            className="favorite-checkbox"
+            onClick={(e) => e.stopPropagation()}
+          ></input>
         </li>
       ))}
     </ul>

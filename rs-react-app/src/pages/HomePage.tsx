@@ -41,12 +41,12 @@ export const HomePage = (): JSX.Element => {
     });
     const lastSearch = localStorage.getItem(LOCAL_STORAGE.lastSearch);
     if (lastSearch) {
-      setSearchParams({pageNumber: '0'});
+      setSearchParams({ pageNumber: '0' });
       const loadItems = async (): Promise<void> => {
         setIsLoading(true);
         await getItems({
           listName: lastSearch,
-          params: searchParams
+          params: searchParams,
         })
           .then((items) => handleItems(items.items, items.pageInfo, false))
           .finally(() => setIsLoading(false));

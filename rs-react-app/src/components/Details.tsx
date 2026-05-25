@@ -9,11 +9,15 @@ export const Details = (): JSX.Element => {
       <div className="details">
         <span className="close-hint">press esc to close</span>
         <div className="details-name">
-          <div className='details-name-header'>
+          <div className="details-name-header">
             <h2>Name:</h2>
-          <input type='checkbox' className='favorite-checkbox' checked></input>
+            <input
+              type="checkbox"
+              className="favorite-checkbox"
+              checked
+            ></input>
           </div>
-          
+
           <div>{name}</div>
         </div>
         <div className="details-description">

@@ -225,11 +225,11 @@ input {
 
 .favorite-checkbox {
   height: 10px;
- appearance: none;
- background-color: var(--text);
- &:checked {
-  background-color: var(--button-shadow)
- }
+  appearance: none;
+  background-color: var(--text);
+  &:checked {
+    background-color: var(--button-shadow);
+  }
 }
 
 .selected-items-block {
@@ -239,8 +239,13 @@ input {
   bottom: 0;
   z-index: 5;
   padding: 2rem;
-  backdrop-filter: blur(15px);  
+  backdrop-filter: blur(15px);
   min-width: 70%;
   margin: auto;
   align-items: center;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 1rem;
 }

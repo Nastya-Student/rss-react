@@ -16,7 +16,6 @@ type SearchButtonProps = {
 };
 
 export const SearchButton = (props: SearchButtonProps): JSX.Element => {
-
   const [searchParams, setSearchParams] = useSearchParams();
 
   const onClickBtn = () => {
@@ -39,7 +38,7 @@ export const SearchButton = (props: SearchButtonProps): JSX.Element => {
       true
     );
 
-    setSearchParams({pageNumber: "0"});
+    setSearchParams({ pageNumber: '0' });
 
     getItems({
       listName: props.isNameSearch

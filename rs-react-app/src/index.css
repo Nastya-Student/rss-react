@@ -26,6 +26,14 @@
   }
 }
 
+[data-theme='light'] {
+  --text: #16253f;
+  --bg-root: #5d6dc5;
+  --bg: #b2b2e9;
+  --bg-hover: #a0a0b8;
+  --border: #667ef8;
+}
+
 #root {
   width: 1126px;
   max-width: 100%;
