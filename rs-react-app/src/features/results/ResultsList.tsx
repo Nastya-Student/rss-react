@@ -1,10 +1,11 @@
 import { useEffect, useState, type JSX, type ReactNode } from 'react';
 import type { ResponseItem, ResponsePage } from '../../api/interfaces/Response';
-import { Loader } from '../Loader';
-import { Pagination } from '../Pagination';
+import { Loader } from '../../components/Loader';
+import { Pagination } from '../../components/Pagination';
 import { getItems } from '../../api/getItems';
 import { LOCAL_STORAGE } from '../../constants';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, } from 'react-router-dom';
+import { Card } from './Card';
 
 type ResultListProps = {
   children: ReactNode;
@@ -22,7 +23,6 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
   );
   const [isLoading, setIsLoading] = useState(props.isLoading);
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const loadData = async (): Promise<void> => {
@@ -59,7 +59,6 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
 
   const getData = (pageNumber: number): void => {
     setShouldThrowError(false);
-    setSearchParams({ pageNumber: pageNumber.toString() });
 
     getItems({
       listName: localStorage.getItem(LOCAL_STORAGE.lastSearch) ?? '',
@@ -110,27 +109,9 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
         <div className="list-item-name title">Name</div>
         <div className="list-item-description title">Description</div>
       </li>
-      {items.map((item, index) => (
-        <li
-          key={index}
-          className="list-item"
-          onClick={() => handleItemOnclick(item)}
-        >
-          <div className="list-item-name">{item.name}</div>
-          <div className="list-item-description">
-            {item.description.map((descriptionItem, index) => (
-              <div key={index} className="description-item">
-                {descriptionItem}
-              </div>
-            ))}
-          </div>
-          <input
-            type="checkbox"
-            className="favorite-checkbox"
-            onClick={(e) => e.stopPropagation()}
-          ></input>
-        </li>
-      ))}
+      {items.map((item, index) => 
+        <Card key={index} item={item} onclickItem={handleItemOnclick }></Card>
+      )}
     </ul>
   );
 };

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { SearchButton } from '../components/top-controls/SearchButton';
+import { SearchButton } from '../features/top-controls/SearchButton';
 
 describe('SearchButton', () => {
   it('renders a search button', () => {
