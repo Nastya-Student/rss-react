@@ -4,7 +4,7 @@ import { Loader } from '../../components/Loader';
 import { Pagination } from '../../components/Pagination';
 import { getItems } from '../../api/getItems';
 import { LOCAL_STORAGE } from '../../constants';
-import { useNavigate, } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Card } from './Card';
 
 type ResultListProps = {
@@ -109,9 +109,9 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
         <div className="list-item-name title">Name</div>
         <div className="list-item-description title">Description</div>
       </li>
-      {items.map((item, index) => 
-        <Card key={index} item={item} onclickItem={handleItemOnclick }></Card>
-      )}
+      {items.map((item, index) => (
+        <Card key={index} item={item} onclickItem={handleItemOnclick}></Card>
+      ))}
     </ul>
   );
 };

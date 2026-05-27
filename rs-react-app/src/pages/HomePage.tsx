@@ -74,7 +74,7 @@ export const HomePage = (): JSX.Element => {
 
           <ErrorButton></ErrorButton>
         </main>
-        <Flyout ></Flyout>
+        <Flyout></Flyout>
 
         <Footer></Footer>
       </ErrorBoundary>

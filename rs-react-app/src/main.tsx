@@ -9,10 +9,9 @@ import { store } from './app/store';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
-
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </Provider>
   </StrictMode>
 );

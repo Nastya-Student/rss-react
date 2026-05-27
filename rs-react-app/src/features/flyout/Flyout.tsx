@@ -2,11 +2,8 @@ import type { JSX } from 'react';
 import { selectItemsLength } from './flyoutSlice';
 import { useAppSelector } from '../../app/hooks';
 
-
-
 export const Flyout = (): JSX.Element => {
-
-  const numberOfSelectedItems = useAppSelector(selectItemsLength)
+  const numberOfSelectedItems = useAppSelector(selectItemsLength);
   return (
     <div className="selected-items-block">
       <p>Selected items: {numberOfSelectedItems}</p>
