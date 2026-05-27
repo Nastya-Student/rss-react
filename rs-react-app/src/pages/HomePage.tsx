@@ -53,7 +53,7 @@ export const HomePage = (): JSX.Element => {
       };
       loadItems();
     }
-  }, []);
+  }, [navigate, searchParams, setSearchParams]);
 
   return (
     <>

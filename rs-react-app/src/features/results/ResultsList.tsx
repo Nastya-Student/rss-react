@@ -5,7 +5,7 @@ import { Pagination } from '../../components/Pagination';
 import { getItems } from '../../api/getItems';
 import { LOCAL_STORAGE } from '../../constants';
 import { useNavigate } from 'react-router-dom';
-import { Card } from './Card';
+import { Card } from './card/Card';
 
 type ResultListProps = {
   children: ReactNode;
