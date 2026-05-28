@@ -1,7 +1,7 @@
-import { useState, type JSX } from 'react';
+import { type JSX } from 'react';
 import type { ResponseItem } from '../../../api/interfaces/Response';
-import { useAppDispatch } from '../../../app/hooks';
-import { select, unselect } from '../../flyout/flyoutSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { select, selectFlyoutItems, unselect } from '../../flyout/flyoutSlice';
 
 type CardProps = {
   key: number;
@@ -11,7 +11,8 @@ type CardProps = {
 
 export const Card = (props: CardProps): JSX.Element => {
   const dispatch = useAppDispatch();
-  const [isMarked, setIsMarked] = useState(false);
+
+  const isMarked = useAppSelector(selectFlyoutItems).includes(props.item);
 
   return (
     <li
@@ -29,15 +30,14 @@ export const Card = (props: CardProps): JSX.Element => {
       </div>
       <input
         type="checkbox"
+        checked={isMarked}
         className="favorite-checkbox"
         onClick={(e) => {
           e.stopPropagation();
           if (!isMarked) {
             dispatch(select(props.item));
-            setIsMarked(true);
           } else {
             dispatch(unselect(props.item.uid));
-            setIsMarked(false);
           }
         }}
       ></input>
