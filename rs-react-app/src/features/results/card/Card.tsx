@@ -1,7 +1,11 @@
 import { type JSX } from 'react';
 import type { ResponseItem } from '../../../api/interfaces/Response';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { select, selectFlyoutItems, unselect } from '../../flyout/flyoutSlice';
+import {
+  select,
+  selectFlyoutItemsIds,
+  unselect,
+} from '../../flyout/flyoutSlice';
 
 type CardProps = {
   key: number;
@@ -12,7 +16,9 @@ type CardProps = {
 export const Card = (props: CardProps): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const isMarked = useAppSelector(selectFlyoutItems).includes(props.item);
+  const isMarked = useAppSelector(selectFlyoutItemsIds).includes(
+    props.item.uid
+  );
 
   return (
     <li

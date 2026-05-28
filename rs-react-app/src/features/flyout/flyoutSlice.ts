@@ -29,7 +29,7 @@ export const flyoutSlice = createSlice({
     },
   },
 
-  extraReducers: (builder) => {},
+  // extraReducers: (builder) => {},
 });
 
 export const { select, unselect, unselectAll } = flyoutSlice.actions;
@@ -38,3 +38,9 @@ export default flyoutSlice.reducer;
 
 export const selectItemsLength = (state: RootState) =>
   state.selectedItems.selectedItems.length;
+
+export const selectFlyoutItems = (state: RootState) =>
+  state.selectedItems.selectedItems;
+
+export const selectFlyoutItemsIds = (state: RootState) =>
+  state.selectedItems.selectedItems.map((item) => item.uid);
