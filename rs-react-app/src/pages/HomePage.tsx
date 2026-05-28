@@ -3,13 +3,13 @@ import type { ResponseItem, ResponsePage } from '../api/interfaces/Response';
 import { getItems } from '../api/getItems';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { Header } from '../components/Header';
-import { TopControls } from '../components/top-controls/TopControls';
-import { Results } from '../components/results/Results';
+import { TopControls } from '../features/top-controls/TopControls';
+import { Results } from '../features/results/Results';
 import { ErrorButton } from '../components/ErrorButton';
 import { Footer } from '../components/Footer';
 import { LOCAL_STORAGE } from '../constants';
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
-import { Flyout } from '../components/Flyout';
+import { Flyout } from '../features/flyout/Flyout';
 
 export const HomePage = (): JSX.Element => {
   const [items, setItems] = useState<ResponseItem[]>([]);
@@ -53,7 +53,7 @@ export const HomePage = (): JSX.Element => {
       };
       loadItems();
     }
-  }, []);
+  }, [navigate, searchParams, setSearchParams]);
 
   return (
     <>
@@ -74,7 +74,7 @@ export const HomePage = (): JSX.Element => {
 
           <ErrorButton></ErrorButton>
         </main>
-        <Flyout selectedItems={5}></Flyout>
+        <Flyout></Flyout>
 
         <Footer></Footer>
       </ErrorBoundary>

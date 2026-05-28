@@ -226,9 +226,9 @@ input {
 .favorite-checkbox {
   height: 10px;
   appearance: none;
-  background-color: var(--text);
+  background-color: var(--bg-checkbox);
   &:checked {
-    background-color: var(--button-shadow);
+    background-color: var(--bg-checkbox-checked);
   }
 }
 
