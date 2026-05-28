@@ -28,8 +28,6 @@ export const flyoutSlice = createSlice({
       state.selectedItems = [];
     },
   },
-
-  // extraReducers: (builder) => {},
 });
 
 export const { select, unselect, unselectAll } = flyoutSlice.actions;
