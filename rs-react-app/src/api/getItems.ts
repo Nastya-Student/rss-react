@@ -51,13 +51,39 @@ type RequestProps = {
   name?: string;
 };
 
+export const getItemBuId = async (
+  props: RequestProps
+): Promise<ResponseItem> => {
+  const response: unknown = await (
+    await fetch(
+      `${BASE_URL}${createEndpoint(props.listName)}?${props.params.toString()}`
+    )
+  ).json();
+
+  return createResponseById(response);
+};
+
+export const createResponseById = (data: unknown): ResponseItem => {
+  let response: ResponseItem = {
+    name: '',
+    description: [],
+    uid: '',
+  };
+  if (typeof data === 'object' && data !== null) {
+    const item: object = Object.entries(data)[0][1];
+    response = getResponseItem(item);
+  }
+  return response;
+};
+
 export const getItems = async (props: RequestProps): Promise<AppResponse> => {
   const values: AppResponse = await getSpecificResponse(props);
+  values.category = props.listName;
   return values;
 };
 
 export const getResponse = async (props: RequestProps): Promise<Response> => {
-  const data = await fetch(
+  return await fetch(
     `${BASE_URL}${createEndpoint(props.listName)}/search?${props.params.toString()}`,
     {
       method: 'POST',
@@ -67,7 +93,6 @@ export const getResponse = async (props: RequestProps): Promise<Response> => {
       body: `title=${props.name ?? ''}&name=${props.name ?? ''}`,
     }
   );
-  return data;
 };
 
 export const getSpecificResponse = async (
@@ -173,30 +198,39 @@ const getResponseItems = <
 ): ResponseItem[] => {
   const values: ResponseItem[] = [];
   data.forEach((item) => {
-    const value: ResponseItem = {
-      name: '',
-      description: [],
-      uid: item.uid ?? '',
-    };
-    if (Object.keys(item).find((key) => key === 'name')) {
-      if (!item.name) {
-        throw new Error();
-      }
-      value.name = item.name;
-    } else if (Object.keys(item).find((key) => key === 'title')) {
-      if (!item.title) {
-        throw new Error();
-      }
-      value.name = item.title;
-    }
-    value.description = invokeDescriptions(item);
-    if (value.description.length == 0) {
-      value.description = ['no description'];
-    }
+    const value = getResponseItem(item);
     values.push(value);
   });
 
   return values;
+};
+
+const getResponseItem = (item: {
+  uid?: string;
+  name?: string;
+  title?: string;
+}): ResponseItem => {
+  const value: ResponseItem = {
+    name: '',
+    description: [],
+    uid: item.uid ?? '',
+  };
+  if (Object.keys(item).find((key) => key === 'name')) {
+    if (!item.name) {
+      throw new Error();
+    }
+    value.name = item.name;
+  } else if (Object.keys(item).find((key) => key === 'title')) {
+    if (!item.title) {
+      throw new Error();
+    }
+    value.name = item.title;
+  }
+  value.description = invokeDescriptions(item);
+  if (value.description.length == 0) {
+    value.description = ['no description'];
+  }
+  return value;
 };
 
 const invokeDescriptions = <T extends Record<string, unknown>>(
@@ -209,7 +243,7 @@ const invokeDescriptions = <T extends Record<string, unknown>>(
       ([key, value]) =>
         `${splitKey(key)}: ${
           value instanceof Object
-            ? ((value as { name?: string }).name ??
+            ? ((value as { name?: string }).name ?? //  check if array
               (value as { title?: string }).title)
             : value
         }`

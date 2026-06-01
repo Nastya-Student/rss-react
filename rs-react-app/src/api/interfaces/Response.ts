@@ -55,6 +55,7 @@ export type ResponsePage = {
 export type AppResponse = {
   pageInfo: ResponsePage;
   items: ResponseItem[];
+  category?: string;
 };
 
 export type Page = {

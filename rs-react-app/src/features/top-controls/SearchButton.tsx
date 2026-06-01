@@ -1,16 +1,12 @@
 import type { JSX } from 'react';
 import { getItems } from '../../api/getItems';
-import type { ResponseItem, ResponsePage } from '../../api/interfaces/Response';
+import type { AppResponse } from '../../api/interfaces/Response';
 import { LOCAL_STORAGE } from '../../constants';
 import { useSearchParams } from 'react-router-dom';
 
 type SearchButtonProps = {
   searchKey: string;
-  onGetItems: (
-    items: ResponseItem[],
-    pageInfo: ResponsePage,
-    isLoading: boolean
-  ) => void;
+  onGetItems: (items: AppResponse, isLoading: boolean) => void;
   disabled?: boolean;
   isNameSearch?: boolean;
 };
@@ -28,12 +24,14 @@ export const SearchButton = (props: SearchButtonProps): JSX.Element => {
     }
 
     props.onGetItems(
-      [],
       {
-        pageNumber: 0,
-        totalPages: 0,
-        firstPage: false,
-        lastPage: false,
+        items: [],
+        pageInfo: {
+          pageNumber: 0,
+          totalPages: 0,
+          firstPage: false,
+          lastPage: false,
+        },
       },
       true
     );
@@ -48,16 +46,18 @@ export const SearchButton = (props: SearchButtonProps): JSX.Element => {
       name: props.isNameSearch ? value : '',
     })
       .then((items) => {
-        props.onGetItems(items.items, items.pageInfo, false);
+        props.onGetItems(items, false);
       })
       .catch(() =>
         props.onGetItems(
-          [],
           {
-            pageNumber: 0,
-            totalPages: 0,
-            firstPage: true,
-            lastPage: true,
+            items: [],
+            pageInfo: {
+              pageNumber: 0,
+              totalPages: 0,
+              firstPage: true,
+              lastPage: true,
+            },
           },
           false
         )

@@ -8,6 +8,7 @@ type CardProps = {
   key: number;
   item: ResponseItem;
   onclickItem: (item: ResponseItem) => void;
+  category: string;
 };
 
 export const Card = (props: CardProps): JSX.Element => {
@@ -35,7 +36,7 @@ export const Card = (props: CardProps): JSX.Element => {
         type="checkbox"
         checked={isMarked}
         className="favorite-checkbox"
-        onClick={(e) => {
+        onChange={(e) => {
           e.stopPropagation();
           if (!isMarked) {
             dispatch(select(props.item));

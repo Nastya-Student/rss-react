@@ -1,11 +1,8 @@
 import type { JSX } from 'react';
-import {
-  selectFlyoutItems,
-  selectItemsLength,
-  unselectAll,
-} from './flyout.slice';
+import { unselectAll } from './flyout.slice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { downloadItems } from './downloadItems';
+import { selectFlyoutItems, selectItemsLength } from './flyout.selectors';
 
 export const Flyout = (): JSX.Element => {
   const numberOfSelectedItems = useAppSelector(selectItemsLength);

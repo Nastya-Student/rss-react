@@ -1,15 +1,11 @@
 import { useState, type JSX } from 'react';
 import { SearchButton } from './SearchButton';
 import { SearchInput } from './SearchInput';
-import type { ResponseItem, ResponsePage } from '../../api/interfaces/Response';
+import type { AppResponse } from '../../api/interfaces/Response';
 
 type TopControlsProps = {
   className: string;
-  transferItems: (
-    items: ResponseItem[],
-    pageInfo: ResponsePage,
-    isLoading: boolean
-  ) => void;
+  transferItems: (items: AppResponse, isLoading: boolean) => void;
 };
 
 export const TopControls = (props: TopControlsProps): JSX.Element => {
@@ -23,12 +19,8 @@ export const TopControls = (props: TopControlsProps): JSX.Element => {
     setSearchKey(value);
   };
 
-  const handleGetItems = (
-    items: ResponseItem[],
-    pageInfo: ResponsePage,
-    isLoading: boolean
-  ): void => {
-    props.transferItems(items, pageInfo, isLoading);
+  const handleGetItems = (items: AppResponse, isLoading: boolean): void => {
+    props.transferItems(items, isLoading);
     setDisabledValue(false);
   };
 
