@@ -1,11 +1,8 @@
 import { type JSX } from 'react';
 import type { ResponseItem } from '../../../api/interfaces/Response';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import {
-  select,
-  selectFlyoutItemsIds,
-  unselect,
-} from '../../flyout/flyoutSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { select, unselect } from '../../flyout/flyout.slice';
+import { selectFlyoutItemsIds } from '../../flyout/flyout.selectors';
 
 type CardProps = {
   key: number;

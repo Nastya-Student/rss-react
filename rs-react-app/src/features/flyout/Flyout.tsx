@@ -3,8 +3,8 @@ import {
   selectFlyoutItems,
   selectItemsLength,
   unselectAll,
-} from './flyoutSlice';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+} from './flyout.slice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { downloadItems } from './downloadItems';
 
 export const Flyout = (): JSX.Element => {
