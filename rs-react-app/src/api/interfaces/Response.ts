@@ -43,6 +43,7 @@ export type ResponseItem = {
   uid: string;
   name: string;
   description: string[];
+  category?: string;
 };
 
 export type ResponsePage = {

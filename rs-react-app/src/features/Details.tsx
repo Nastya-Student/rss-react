@@ -78,6 +78,9 @@ export const Details = (): JSX.Element => {
 
           <div>{name}</div>
         </div>
+        <p className="category-description">
+          <i>category: {category}</i>
+        </p>
         <div className="details-description">
           <h2>Description:</h2>
           {description.map((descriptionItem, index) => (

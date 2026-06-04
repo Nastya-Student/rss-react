@@ -60,14 +60,18 @@ export const getItemBuId = async (
     )
   ).json();
 
-  return createResponseById(response);
+  return createResponseById(response, props.listName);
 };
 
-export const createResponseById = (data: unknown): ResponseItem => {
+export const createResponseById = (
+  data: unknown,
+  category: string
+): ResponseItem => {
   let response: ResponseItem = {
     name: '',
     description: [],
     uid: '',
+    category: category,
   };
   if (typeof data === 'object' && data !== null) {
     const item: object = Object.entries(data)[0][1];
