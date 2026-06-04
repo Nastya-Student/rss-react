@@ -65,7 +65,7 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
     setShouldThrowError(false);
 
     getItems({
-      listName: localStorage.getItem(LOCAL_STORAGE.lastSearch) ?? '',
+      listName: localStorage.getItem(LOCAL_STORAGE.lastCategory) ?? '',
       params: new URLSearchParams({ pageNumber: pageNumber.toString() }),
     })
       .then((response) => {
@@ -116,6 +116,7 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
       {items.map((item, index) => (
         <Card
           key={index}
+          index={index}
           item={item}
           onclickItem={handleItemOnclick}
           category={props.response.category ?? ''}

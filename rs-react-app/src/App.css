@@ -190,7 +190,7 @@ input {
   gap: 2rem;
   border: 1px solid var(--border);
   right: 3rem;
-  top: 30%;
+  /* top: 30%; */
 }
 
 .details-name {
@@ -202,6 +202,10 @@ input {
   flex-direction: row;
   justify-content: space-between;
   margin-left: 30%;
+}
+
+.details-description {
+  /* overflow-y: scroll; */
 }
 
 .pagination {

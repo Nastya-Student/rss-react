@@ -1,6 +1,11 @@
 import { useEffect, useState, type JSX } from 'react';
 import { useParams } from 'react-router-dom';
 import { getItemBuId } from '../api/getItems';
+import { CheckboxInput } from './results/card/CheckboxInput';
+import { selectFlyoutItemsIds } from './flyout/flyout.selectors';
+import { useAppSelector } from '../store/hooks';
+import type { ResponseItem } from '../api/interfaces/Response';
+import { Loader } from '../components/Loader';
 
 export const Details = (): JSX.Element => {
   const { category } = useParams();
@@ -9,28 +14,57 @@ export const Details = (): JSX.Element => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState<string[]>([]);
 
-  const getData = async (): Promise<void> => {
-    try {
-      const response = await getItemBuId({
-        listName: category ?? '',
-        params: new URLSearchParams({ uid: uid ?? '' }),
-      });
+  const [item, setItem] = useState<ResponseItem>({
+    uid: '',
+    name: '',
+    description: [],
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-      console.log('details-data: ' + response.name);
-
-      setName(response.name);
-      setDescription(response.description);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const selectedItems = useAppSelector(selectFlyoutItemsIds);
+  const isMarked = item ? selectedItems.includes(item.uid) : false;
 
   useEffect(() => {
-    const loadData = async (): Promise<void> => {
-      getData();
+    const getData = async (): Promise<void> => {
+      setIsLoading(true);
+      try {
+        const response = await getItemBuId({
+          listName: category ?? '',
+          params: new URLSearchParams({ uid: uid ?? '' }),
+        });
+
+        setName(response.name);
+        setDescription(response.description);
+        setItem(response);
+      } catch {
+        setError(true);
+      } finally {
+        setIsLoading(false);
+      }
     };
-    loadData();
-  }, []);
+    getData();
+  }, [category, uid]);
+
+  if (isLoading) {
+    return (
+      <div className="details">
+        <span className="close-hint">press esc to close</span>
+        <Loader></Loader>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="details">
+        <span className="close-hint">press esc to close</span>
+        <h2 className="error-header">
+          No items was found. Please, choose something from the list.
+        </h2>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -39,11 +73,7 @@ export const Details = (): JSX.Element => {
         <div className="details-name">
           <div className="details-name-header">
             <h2>Name:</h2>
-            <input
-              type="checkbox"
-              className="favorite-checkbox"
-              checked
-            ></input>
+            <CheckboxInput isMarked={isMarked} item={item}></CheckboxInput>
           </div>
 
           <div>{name}</div>

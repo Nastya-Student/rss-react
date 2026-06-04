@@ -37,7 +37,7 @@ export const HomePage = (): JSX.Element => {
         navigate('/');
       }
     });
-    const lastSearch = localStorage.getItem(LOCAL_STORAGE.lastSearch);
+    const lastSearch = localStorage.getItem(LOCAL_STORAGE.lastCategory);
     if (lastSearch) {
       setSearchParams({ pageNumber: '0' });
       const loadItems = async (): Promise<void> => {
