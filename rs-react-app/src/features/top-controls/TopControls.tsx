@@ -1,11 +1,10 @@
 import { useState, type JSX } from 'react';
-import { SearchButton } from './SearchButton';
 import { SearchInput } from './SearchInput';
 import type { AppResponse } from '../../api/interfaces/Response';
 import { LOCAL_STORAGE } from '../../constants';
-import { ResetButton } from './ResetButton';
 import { useSearchParams } from 'react-router-dom';
 import { getItems } from '../../api/getItems';
+import { Button } from '../../components/Button';
 
 type TopControlsProps = {
   className: string;
@@ -41,6 +40,21 @@ export const TopControls = (props: TopControlsProps): JSX.Element => {
     e.preventDefault();
     const categoryValue = category.trim();
     const nameValue = name.trim();
+
+    if (!categoryValue && !nameValue) {
+      handleGetItems(
+        {
+          items: [],
+          pageInfo: {
+            pageNumber: 0,
+            totalPages: 0,
+            firstPage: false,
+            lastPage: false,
+          },
+        },
+        false
+      );
+    }
 
     if (
       localStorage.getItem(LOCAL_STORAGE.lastCategory) === categoryValue &&
@@ -91,6 +105,13 @@ export const TopControls = (props: TopControlsProps): JSX.Element => {
       );
   };
 
+  const handleResetButton = (): void => {
+    setCategory('');
+    setName('');
+    localStorage.setItem(LOCAL_STORAGE.lastCategory, '');
+    localStorage.setItem(LOCAL_STORAGE.lastName, '');
+  };
+
   return (
     <form onSubmit={(e) => handleSubmitForm(e)} className={props.className}>
       <div className="search-form">
@@ -103,7 +124,7 @@ export const TopControls = (props: TopControlsProps): JSX.Element => {
           isSelect={true}
           list="suggestions"
         ></SearchInput>
-        <ResetButton></ResetButton>
+        <Button onclick={handleResetButton}>Reset</Button>
       </div>
 
       <div className="search-form search-by-name-form">
@@ -116,7 +137,7 @@ export const TopControls = (props: TopControlsProps): JSX.Element => {
           onChange={handleInputName}
           isSelect={false}
         ></SearchInput>
-        <SearchButton></SearchButton>
+        <Button>Search</Button>
       </div>
     </form>
   );
