@@ -18,7 +18,6 @@ export const App = (): JSX.Element => {
               ></ErrorBoundary>
             }
           ></Route>
-         
         </Route>
         <Route path="*" element={<ErrorPage />}></Route>
       </Routes>

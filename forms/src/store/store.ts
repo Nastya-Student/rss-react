@@ -2,8 +2,7 @@ import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
-  reducer: {
-  },
+  reducer: {},
 });
 
 // Infer the type of `store`

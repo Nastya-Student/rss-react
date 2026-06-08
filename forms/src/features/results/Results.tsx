@@ -8,7 +8,7 @@ type ResultsProps = {
 
 export const Results = (props: ResultsProps): JSX.Element => {
   return (
-    <div className="block block-results">
+    <div className="block-results">
       <ul className="results-list">
         {props.items.map((item, index) => (
           <Card key={index} index={index} formData={item}></Card>
