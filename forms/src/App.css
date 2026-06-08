@@ -176,3 +176,10 @@ input {
   background-color: var(--bg);
   border: 1px solid var(--border);
 }
+
+.radio-buttons {
+  display: flex;
+  width: fit-content;
+  flex-direction: row;
+  gap: 1rem;
+}
