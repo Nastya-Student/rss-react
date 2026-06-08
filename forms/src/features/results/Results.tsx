@@ -1,16 +1,15 @@
 import type { JSX } from 'react';
 import { Card } from '../../components/Card';
-import type { MyFormData } from '../../types/MyFormData';
+import { useAppSelector } from '../../store/hooks';
+import { selectAllItems } from '../../store/app.selectors';
 
-type ResultsProps = {
-  items: MyFormData[];
-};
+export const Results = (): JSX.Element => {
+  const items = useAppSelector(selectAllItems);
 
-export const Results = (props: ResultsProps): JSX.Element => {
   return (
     <div className="block-results">
       <ul className="results-list">
-        {props.items.map((item, index) => (
+        {items.map((item, index) => (
           <Card key={index} index={index} formData={item}></Card>
         ))}
       </ul>

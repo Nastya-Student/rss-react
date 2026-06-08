@@ -1,13 +1,19 @@
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { expect, test } from 'vitest';
+import { afterEach, beforeEach, expect, test } from 'vitest';
 import { HomePage } from '../pages/HomePage';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
 
-render(
-  <MemoryRouter>
-    <HomePage />
-  </MemoryRouter>
-);
+beforeEach(() => {
+  render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <HomePage />
+      </MemoryRouter>
+    </Provider>
+  );
+});
 
 test('HomePage renders U-Form button', () => {
   const button = screen.getByRole('button', { name: /U-Form/i });
@@ -17,4 +23,8 @@ test('HomePage renders U-Form button', () => {
 test('HomePage renders RH-Form button', () => {
   const button = screen.getByRole('button', { name: /RH-Form/i });
   expect(button).toBeInTheDocument();
+});
+
+afterEach(() => {
+  cleanup();
 });

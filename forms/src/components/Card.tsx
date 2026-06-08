@@ -8,5 +8,13 @@ type CardProps = {
 };
 
 export const Card = (props: CardProps): JSX.Element => {
-  return <li key={props.index} className="list-item"></li>;
+  return (
+    <li key={props.index} className="card">
+      {Array.from(Object.entries(props.formData)).map(([k, v]) => (
+        <div key={k}>
+          {k}: {String(v)}
+        </div>
+      ))}
+    </li>
+  );
 };

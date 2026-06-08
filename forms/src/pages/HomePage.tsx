@@ -12,8 +12,8 @@ export const HomePage = (): JSX.Element => {
       <ErrorBoundary message="Something went wrong. Please, reload this page.">
         <Header></Header>
         <main>
-          <Forms className="block search-block"></Forms>
-          <Results items={[]}></Results>
+          <Forms className="forms-block"></Forms>
+          <Results></Results>
         </main>
 
         <Footer></Footer>
