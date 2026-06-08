@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+{
+  cd rs-react-app || exit 1
+  npm run test:coverage
+  vercel --prod
+}
+
+{
+  cd forms || exit 1
+  npm run test:coverage
+  vercel --prod
+}
