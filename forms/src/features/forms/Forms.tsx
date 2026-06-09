@@ -1,28 +1,31 @@
-import { useState } from 'react';
 import type { JSX } from 'react/jsx-runtime';
 import { Modal } from './Modal';
 import { UncontrolledForm } from './UncontrolledForm';
+
+import { useDispatch } from 'react-redux';
+import { closeUForm, openUForm } from '../../store/uForm.slice';
+import { closeRHForm, openRHForm } from '../../store/rhFormSlice';
 import { ReactHookForm } from './ReactHookForm';
+import { useAppSelector } from '../../store/hooks';
+import { selectRHFormState } from '../../store/rhFormSelector';
+import { selectUFormState } from '../../store/uForm.selector';
 
-type TopControlsProps = {
-  className: string;
-};
-
-export const Forms = (props: TopControlsProps): JSX.Element => {
-  const [isUFormOpen, setIsUFormOpen] = useState(false);
-  const [isRHFormOpen, setRHFormOpen] = useState(false);
+export const Forms = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const uFormState = useAppSelector(selectUFormState);
+  const rhFormState = useAppSelector(selectRHFormState);
 
   return (
-    <div className={props.className}>
-      <button onClick={() => setIsUFormOpen(true)}>U-Form</button>
-      <button onClick={() => setRHFormOpen(true)}>RH-Form</button>
-      <Modal isOpen={isUFormOpen} onClose={() => setIsUFormOpen(false)}>
+    <div className="forms-block">
+      <button onClick={() => dispatch(openUForm())}>U-Form</button>
+      <button onClick={() => dispatch(openRHForm())}>RH-Form</button>
+      <Modal formState={uFormState} onClose={() => dispatch(closeUForm())}>
         <UncontrolledForm></UncontrolledForm>
       </Modal>
       <Modal
-        isOpen={isRHFormOpen}
+        formState={rhFormState}
         onClose={() => {
-          setRHFormOpen(false);
+          dispatch(closeRHForm());
         }}
       >
         <ReactHookForm></ReactHookForm>

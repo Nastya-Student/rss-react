@@ -12,7 +12,7 @@ export const HomePage = (): JSX.Element => {
       <ErrorBoundary message="Something went wrong. Please, reload this page.">
         <Header></Header>
         <main>
-          <Forms className="forms-block"></Forms>
+          <Forms></Forms>
           <Results></Results>
         </main>
 

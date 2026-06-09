@@ -1,10 +1,14 @@
 import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
 import appReducer from './app.slice';
+import uFormReducer from './uForm.slice';
+import rhFormReducer from './rhFormSlice';
 
 export const store = configureStore({
   reducer: {
     data: appReducer,
+    UForm: uFormReducer,
+    RHForm: rhFormReducer,
   },
 });
 

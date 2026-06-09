@@ -2,51 +2,53 @@ import type { JSX } from 'react/jsx-runtime';
 import { useAppDispatch } from '../../store/hooks';
 import { add } from '../../store/app.slice';
 import { Input } from '../../components/Input';
+import { useRef } from 'react';
+import { closeUForm } from '../../store/uForm.slice';
 
 export const UncontrolledForm = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
+  const nameRef = useRef<HTMLInputElement>(null);
+  const ageRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+
   return (
     <form
-      onSubmit={() => {
+      onSubmit={(e) => {
+        e.preventDefault();
         dispatch(
           add({
-            name: '',
-            age: 0,
-            email: '',
+            name: nameRef.current?.value ?? '',
+            age: Number(ageRef.current?.value),
+            email: emailRef.current?.value ?? '',
             gender: 'male',
           })
         );
+        dispatch(closeUForm());
       }}
       className="form-block uncontrolled-form"
     >
       <h2>Uncontrolled Form</h2>
       <Input
+        inputRef={nameRef}
         type={'text'}
         name={'name'}
-        onChange={function (): void {
-          throw new Error('Function not implemented.');
-        }}
         placeholder={'name:'}
         required={true}
         labelText={'Name:'}
       ></Input>
       <Input
+        inputRef={ageRef}
         type={'text'}
         name={'age'}
-        onChange={function (): void {
-          throw new Error('Function not implemented.');
-        }}
         placeholder={'age:'}
         required={true}
         labelText={'Age:'}
       ></Input>
       <Input
+        inputRef={emailRef}
         type={'email'}
         name={'email'}
-        onChange={function (): void {
-          throw new Error('Function not implemented.');
-        }}
         placeholder={'email:'}
         required={true}
         labelText={'Email:'}

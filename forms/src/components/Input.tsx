@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/refs */
 import type { JSX } from 'react/jsx-runtime';
 
 type InputProps = {
+  inputRef?: React.RefObject<HTMLInputElement | null>;
   type: 'text' | 'email' | 'tel' | 'radio' | 'checkbox' | 'file' | 'url';
   name: string;
   initValue?: string | number | string[];
-  onChange: () => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   required?: boolean;
   labelText: string;
@@ -18,7 +20,7 @@ export const Input = (props: InputProps): JSX.Element => {
       {Array.isArray(props.initValue) ? (
         props.initValue.map((value, index) => {
           return (
-            <>
+            <div key={index}>
               <input
                 key={index}
                 type="radio"
@@ -31,11 +33,12 @@ export const Input = (props: InputProps): JSX.Element => {
                 className="radio-button"
               ></input>
               <div>{value}</div>
-            </>
+            </div>
           );
         })
       ) : (
         <input
+          ref={props.inputRef}
           type={props.type}
           name={props.name}
           id={props.name}

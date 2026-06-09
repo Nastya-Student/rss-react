@@ -2,8 +2,8 @@ import { useEffect, type JSX, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 type ModalProps = {
-  isOpen: boolean;
   children: ReactNode;
+  formState: boolean;
   onClose: () => void;
 };
 
@@ -16,7 +16,7 @@ export const Modal = (props: ModalProps): JSX.Element | undefined => {
     });
   }, []);
 
-  if (!props.isOpen) {
+  if (!props.formState) {
     return;
   }
 
