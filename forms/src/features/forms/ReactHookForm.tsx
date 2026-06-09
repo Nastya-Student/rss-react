@@ -2,21 +2,25 @@ import type { JSX } from 'react/jsx-runtime';
 import { useAppDispatch } from '../../store/hooks';
 import { add } from '../../store/app.slice';
 import { Input } from '../../components/Input';
+import { useState } from 'react';
+import type { MyFormData } from '../../types/MyFormData';
+import { closeRHForm } from '../../store/rhFormSlice';
 
 export const ReactHookForm = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const [formData, setFormData] = useState<MyFormData>({
+    name: '',
+    age: 0,
+    email: '',
+    gender: 'male',
+  });
 
   return (
     <form
-      onSubmit={() => {
-        dispatch(
-          add({
-            name: '',
-            age: 0,
-            email: '',
-            gender: 'male',
-          })
-        );
+      onSubmit={(e) => {
+        e.preventDefault();
+        dispatch(add(formData));
+        dispatch(closeRHForm());
       }}
       className="form-block react-hook-form"
     >
@@ -24,8 +28,8 @@ export const ReactHookForm = (): JSX.Element => {
       <Input
         type={'text'}
         name={'name'}
-        onChange={function (): void {
-          throw new Error('Function not implemented.');
+        onChange={(e) => {
+          setFormData((prev) => ({ ...prev, name: e.target.value }));
         }}
         placeholder={'name:'}
         required={true}
@@ -34,8 +38,8 @@ export const ReactHookForm = (): JSX.Element => {
       <Input
         type={'text'}
         name={'age'}
-        onChange={function (): void {
-          throw new Error('Function not implemented.');
+        onChange={(e) => {
+          setFormData((prev) => ({ ...prev, age: Number(e.target.value) }));
         }}
         placeholder={'age:'}
         required={true}
@@ -44,8 +48,8 @@ export const ReactHookForm = (): JSX.Element => {
       <Input
         type={'email'}
         name={'email'}
-        onChange={function (): void {
-          throw new Error('Function not implemented.');
+        onChange={(e) => {
+          setFormData((prev) => ({ ...prev, email: e.target.value }));
         }}
         placeholder={'email:'}
         required={true}
@@ -57,8 +61,8 @@ export const ReactHookForm = (): JSX.Element => {
           type={'radio'}
           name={'gender'}
           initValue={['male', 'female', 'other']}
-          onChange={function (): void {
-            throw new Error('Function not implemented.');
+          onChange={(e) => {
+            setFormData((prev) => ({ ...prev, gender: e.target.value }));
           }}
           labelText={'Gender:'}
         ></Input>
@@ -68,9 +72,9 @@ export const ReactHookForm = (): JSX.Element => {
         <Input
           type={'checkbox'}
           name={'terms'}
-          onChange={function (): void {
-            throw new Error('Function not implemented.');
-          }}
+          // onChange={(e) => {
+          //   setFormData((prev) => ({ ...prev, email: e.target.value }));
+          // }}
           required={true}
           labelText={' Terms & Conditions: '}
         ></Input>

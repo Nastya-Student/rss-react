@@ -2,7 +2,7 @@
 import type { JSX } from 'react/jsx-runtime';
 
 type InputProps = {
-  inputRef?: React.RefObject<HTMLInputElement | null>;
+  inputRef?: React.Ref<HTMLInputElement | null>;
   type: 'text' | 'email' | 'tel' | 'radio' | 'checkbox' | 'file' | 'url';
   name: string;
   initValue?: string | number | string[];
@@ -10,7 +10,6 @@ type InputProps = {
   placeholder?: string;
   required?: boolean;
   labelText: string;
-  checkedValue?: string;
 };
 
 export const Input = (props: InputProps): JSX.Element => {
@@ -18,24 +17,23 @@ export const Input = (props: InputProps): JSX.Element => {
     <>
       <label htmlFor={props.name}>{props.labelText}</label>
       {Array.isArray(props.initValue) ? (
-        props.initValue.map((value, index) => {
-          return (
-            <div key={index}>
-              <input
-                key={index}
-                type="radio"
-                name={props.name}
-                id={props.name}
-                value={value}
-                onChange={props.onChange}
-                placeholder={props.placeholder}
-                checked={props.checkedValue === value}
-                className="radio-button"
-              ></input>
-              <div>{value}</div>
-            </div>
-          );
-        })
+        props.initValue.map((value, index) => (
+          <div key={index}>
+            <input
+              ref={props.inputRef}
+              key={index}
+              type="radio"
+              name={props.name}
+              id={props.name}
+              value={value}
+              onChange={props.onChange}
+              placeholder={props.placeholder}
+              className="radio-button"
+              defaultChecked={value === 'male'}
+            ></input>
+            <div>{value}</div>
+          </div>
+        ))
       ) : (
         <input
           ref={props.inputRef}

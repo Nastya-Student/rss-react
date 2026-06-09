@@ -11,6 +11,7 @@ export const UncontrolledForm = (): JSX.Element => {
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
+  const genderRef = useRef<HTMLInputElement>(null);
 
   return (
     <form
@@ -21,7 +22,7 @@ export const UncontrolledForm = (): JSX.Element => {
             name: nameRef.current?.value ?? '',
             age: Number(ageRef.current?.value),
             email: emailRef.current?.value ?? '',
-            gender: 'male',
+            gender: genderRef.current?.value ?? '',
           })
         );
         dispatch(closeUForm());
@@ -56,12 +57,10 @@ export const UncontrolledForm = (): JSX.Element => {
 
       <div className="radio-buttons">
         <Input
+          inputRef={genderRef}
           type={'radio'}
           name={'gender'}
           initValue={['male', 'female', 'other']}
-          onChange={function (): void {
-            throw new Error('Function not implemented.');
-          }}
           labelText={'Gender:'}
         ></Input>
       </div>
@@ -70,9 +69,6 @@ export const UncontrolledForm = (): JSX.Element => {
         <Input
           type={'checkbox'}
           name={'terms'}
-          onChange={function (): void {
-            throw new Error('Function not implemented.');
-          }}
           required={true}
           labelText={' Terms & Conditions: '}
         ></Input>
