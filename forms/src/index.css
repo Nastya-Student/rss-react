@@ -1,0 +1,84 @@
+:root {
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  --text: #9ca3af;
+  --bg: #16171d;
+  --bg-root: #111116;
+  --border: #2e303a;
+  --bg-hover: #1c1d24;
+  --bg-checkbox: #9ca3af;
+  --bg-checkbox-checked: #111116;
+  --box-shadow: 2px 2px 10px rgb(139, 135, 135);
+  --button-shadow: 1px 1px 4px rgb(139, 135, 135);
+  --button-shadow-hover: 1px 1px 8px rgb(139, 135, 135);
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color: var(--text);
+  background: var(--bg-root);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+[data-theme='light'] {
+  --text: #16253f;
+  --bg-root: #5d6dc5;
+  --bg: #b2b2e9;
+  --bg-hover: #a0a0b8;
+  --border: #667ef8;
+  --bg-checkbox-checked: #3f4c8f;
+}
+
+#root {
+  width: 1126px;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+
+p {
+  margin: 0;
+}
