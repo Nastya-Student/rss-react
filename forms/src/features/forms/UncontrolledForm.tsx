@@ -8,21 +8,23 @@ import { closeUForm } from '../../store/uForm.slice';
 export const UncontrolledForm = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const nameRef = useRef<HTMLInputElement>(null);
-  const ageRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const genderRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
     <form
+      ref={formRef}
       onSubmit={(e) => {
         e.preventDefault();
+        if (!formRef.current) {
+          return;
+        }
+        const formData = new FormData(formRef.current);
         dispatch(
           add({
-            name: nameRef.current?.value ?? '',
-            age: Number(ageRef.current?.value),
-            email: emailRef.current?.value ?? '',
-            gender: genderRef.current?.value ?? '',
+            name: formData.get('name')?.toString() ?? '',
+            age: formData.get('age')?.toString() ?? '',
+            email: formData.get('email')?.toString() ?? '',
+            gender: formData.get('gender')?.toString() ?? '',
           })
         );
         dispatch(closeUForm());
@@ -31,7 +33,6 @@ export const UncontrolledForm = (): JSX.Element => {
     >
       <h2>Uncontrolled Form</h2>
       <Input
-        inputRef={nameRef}
         type={'text'}
         name={'name'}
         placeholder={'name:'}
@@ -39,7 +40,6 @@ export const UncontrolledForm = (): JSX.Element => {
         labelText={'Name:'}
       ></Input>
       <Input
-        inputRef={ageRef}
         type={'text'}
         name={'age'}
         placeholder={'age:'}
@@ -47,7 +47,6 @@ export const UncontrolledForm = (): JSX.Element => {
         labelText={'Age:'}
       ></Input>
       <Input
-        inputRef={emailRef}
         type={'email'}
         name={'email'}
         placeholder={'email:'}
@@ -56,13 +55,40 @@ export const UncontrolledForm = (): JSX.Element => {
       ></Input>
 
       <div className="radio-buttons">
-        <Input
-          inputRef={genderRef}
-          type={'radio'}
-          name={'gender'}
-          initValue={['male', 'female', 'other']}
-          labelText={'Gender:'}
-        ></Input>
+        <fieldset>
+          <legend>Gender:</legend>
+          <div>
+            <label htmlFor="gender-male">Male </label>
+            <input
+              type="radio"
+              name="gender"
+              id="gender-male"
+              value="male"
+              className="radio-button"
+              defaultChecked
+            ></input>
+          </div>
+          <div>
+            <label htmlFor="gender-female">Female </label>
+            <input
+              type="radio"
+              name="gender"
+              id="gender-female"
+              value="female"
+              className="radio-button"
+            ></input>
+          </div>
+          <div>
+            <label htmlFor="gender-other">Other </label>
+            <input
+              type="radio"
+              name="gender"
+              id="gender-other"
+              value="other"
+              className="radio-button"
+            ></input>
+          </div>
+        </fieldset>
       </div>
 
       <div className="radio-buttons">

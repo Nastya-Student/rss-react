@@ -2,79 +2,128 @@ import type { JSX } from 'react/jsx-runtime';
 import { useAppDispatch } from '../../store/hooks';
 import { add } from '../../store/app.slice';
 import { Input } from '../../components/Input';
-import { useState } from 'react';
-import type { MyFormData } from '../../types/MyFormData';
 import { closeRHForm } from '../../store/rhFormSlice';
+import { Controller, useForm } from 'react-hook-form';
+import type { MyFormData } from '../../types/MyFormData';
 
 export const ReactHookForm = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const [formData, setFormData] = useState<MyFormData>({
-    name: '',
-    age: 0,
-    email: '',
-    gender: 'male',
+
+  const { control, handleSubmit } = useForm<MyFormData>({
+    defaultValues: {
+      name: '',
+      age: '',
+      email: '',
+      gender: 'male',
+    },
   });
+
+  const onSubmit = (data: MyFormData) => {
+    dispatch(add(data));
+    dispatch(closeRHForm());
+  };
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        dispatch(add(formData));
-        dispatch(closeRHForm());
-      }}
+      onSubmit={handleSubmit(onSubmit)}
       className="form-block react-hook-form"
     >
       <h2>React Hook Form</h2>
-      <Input
-        type={'text'}
-        name={'name'}
-        onChange={(e) => {
-          setFormData((prev) => ({ ...prev, name: e.target.value }));
-        }}
-        placeholder={'name:'}
-        required={true}
-        labelText={'Name:'}
-      ></Input>
-      <Input
-        type={'text'}
-        name={'age'}
-        onChange={(e) => {
-          setFormData((prev) => ({ ...prev, age: Number(e.target.value) }));
-        }}
-        placeholder={'age:'}
-        required={true}
-        labelText={'Age:'}
-      ></Input>
-      <Input
-        type={'email'}
-        name={'email'}
-        onChange={(e) => {
-          setFormData((prev) => ({ ...prev, email: e.target.value }));
-        }}
-        placeholder={'email:'}
-        required={true}
-        labelText={'Email:'}
-      ></Input>
+
+      <Controller
+        name="name"
+        control={control}
+        render={({ field }) => (
+          <Input
+            type={'text'}
+            placeholder={'name:'}
+            required={true}
+            labelText={'Name:'}
+            {...field}
+          ></Input>
+        )}
+      ></Controller>
+
+      <Controller
+        name="age"
+        control={control}
+        render={({ field }) => (
+          <Input
+            type={'number'}
+            placeholder={'age:'}
+            required={true}
+            labelText={'Age:'}
+            {...field}
+          ></Input>
+        )}
+      ></Controller>
+
+      <Controller
+        name="email"
+        control={control}
+        render={({ field }) => (
+          <Input
+            type={'email'}
+            placeholder={'email:'}
+            required={true}
+            labelText={'Email:'}
+            {...field}
+          ></Input>
+        )}
+      ></Controller>
 
       <div className="radio-buttons">
-        <Input
-          type={'radio'}
-          name={'gender'}
-          initValue={['male', 'female', 'other']}
-          onChange={(e) => {
-            setFormData((prev) => ({ ...prev, gender: e.target.value }));
-          }}
-          labelText={'Gender:'}
-        ></Input>
+        <fieldset>
+          <legend>Gender:</legend>
+
+          <Controller
+            name="gender"
+            control={control}
+            render={({ field }) => {
+              return (
+                <>
+                  <div>
+                    <label htmlFor="gender-male">Male </label>
+                    <input
+                      type="radio"
+                      {...field}
+                      id="gender-male"
+                      value="male"
+                      className="radio-button"
+                      defaultChecked
+                    ></input>
+                  </div>
+                  <div>
+                    <label htmlFor="gender-female">Female </label>
+                    <input
+                      type="radio"
+                      {...field}
+                      id="gender-female"
+                      value="female"
+                      className="radio-button"
+                    ></input>
+                  </div>
+                  <div>
+                    <label htmlFor="gender-other">Other </label>
+                    <input
+                      type="radio"
+                      {...field}
+                      id="gender-other"
+                      value="other"
+                      className="radio-button"
+                    ></input>
+                  </div>
+                </>
+              );
+            }}
+          ></Controller>
+        </fieldset>
       </div>
 
       <div className="radio-buttons">
         <Input
           type={'checkbox'}
           name={'terms'}
-          // onChange={(e) => {
-          //   setFormData((prev) => ({ ...prev, email: e.target.value }));
-          // }}
           required={true}
           labelText={' Terms & Conditions: '}
         ></Input>

@@ -1,6 +1,6 @@
 export type MyFormData = {
   name: string;
-  age: number;
+  age: string;
   email: string;
   gender: string;
 };
