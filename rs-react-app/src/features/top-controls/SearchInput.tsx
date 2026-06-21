@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type JSX } from 'react';
+import { type ChangeEvent, type JSX } from 'react';
 import { ITEMS } from '../../constants';
 
 type SearchInputProps = {
@@ -13,21 +13,19 @@ type SearchInputProps = {
 };
 
 export const SearchInput = (props: SearchInputProps): JSX.Element => {
-  const [value, setValue] = useState(props.initialValue);
-
   const handleInput = (event: ChangeEvent<HTMLInputElement>): void => {
-    setValue(event.target.value);
     props.onChange(event.target.value);
   };
 
+  // to see all of options
   const handleInputOnfocus = (): void => {
     if (!props.isSelect) {
       return;
     }
-    const tempValue = value;
-    setValue('');
+    const tempValue = props.initialValue || '';
+    props.onChange('');
     setTimeout(() => {
-      setValue(tempValue);
+      props.onChange(tempValue);
     }, 1000);
   };
 
@@ -37,7 +35,7 @@ export const SearchInput = (props: SearchInputProps): JSX.Element => {
         id={props.id}
         type={props.type}
         placeholder={props.placeholder}
-        value={value}
+        value={props.initialValue}
         onChange={handleInput}
         list={props.list}
         disabled={props.disabled}

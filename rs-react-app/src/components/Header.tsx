@@ -1,5 +1,6 @@
 import { type JSX } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { ThemeButton } from './ThemeButton';
 
 export const Header = (): JSX.Element => {
   const location = useLocation();
@@ -14,19 +15,6 @@ export const Header = (): JSX.Element => {
     navigate('/');
   };
 
-  if (isHomePage) {
-    return (
-      <header>
-        <div></div>
-        <div>
-          <h1>Star Trek </h1>
-          <p>(Memory Alpha data)</p>
-        </div>
-
-        <button onClick={handleAbout}>About</button>
-      </header>
-    );
-  }
   return (
     <header>
       <div></div>
@@ -34,7 +22,14 @@ export const Header = (): JSX.Element => {
         <h1>Star Trek </h1>
         <p>(Memory Alpha data)</p>
       </div>
-      <button onClick={handleHome}>Home</button>
+      <div className="header-buttons">
+        <ThemeButton></ThemeButton>
+        {isHomePage ? (
+          <button onClick={handleAbout}>About</button>
+        ) : (
+          <button onClick={handleHome}>Home</button>
+        )}
+      </div>
     </header>
   );
 };

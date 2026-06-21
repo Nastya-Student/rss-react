@@ -43,6 +43,7 @@ export type ResponseItem = {
   uid: string;
   name: string;
   description: string[];
+  category?: string;
 };
 
 export type ResponsePage = {
@@ -55,6 +56,7 @@ export type ResponsePage = {
 export type AppResponse = {
   pageInfo: ResponsePage;
   items: ResponseItem[];
+  category?: string;
 };
 
 export type Page = {

@@ -8,6 +8,8 @@
   --bg-root: #111116;
   --border: #2e303a;
   --bg-hover: #1c1d24;
+  --bg-checkbox: #9ca3af;
+  --bg-checkbox-checked: #111116;
   --box-shadow: 2px 2px 10px rgb(139, 135, 135);
   --button-shadow: 1px 1px 4px rgb(139, 135, 135);
   --button-shadow-hover: 1px 1px 8px rgb(139, 135, 135);
@@ -24,6 +26,15 @@
   @media (max-width: 1024px) {
     font-size: 16px;
   }
+}
+
+[data-theme='light'] {
+  --text: #16253f;
+  --bg-root: #5d6dc5;
+  --bg: #b2b2e9;
+  --bg-hover: #a0a0b8;
+  --border: #667ef8;
+  --bg-checkbox-checked: #3f4c8f;
 }
 
 #root {

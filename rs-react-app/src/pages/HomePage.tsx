@@ -1,34 +1,34 @@
 import { useEffect, useState, type JSX } from 'react';
-import type { ResponseItem, ResponsePage } from '../api/interfaces/Response';
+import type { AppResponse } from '../api/interfaces/Response';
 import { getItems } from '../api/getItems';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { Header } from '../components/Header';
-import { TopControls } from '../components/top-controls/TopControls';
-import { Results } from '../components/results/Results';
+import { TopControls } from '../features/top-controls/TopControls';
+import { Results } from '../features/results/Results';
 import { ErrorButton } from '../components/ErrorButton';
 import { Footer } from '../components/Footer';
 import { LOCAL_STORAGE } from '../constants';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import { Flyout } from '../features/flyout/Flyout';
 
 export const HomePage = (): JSX.Element => {
-  const [items, setItems] = useState<ResponseItem[]>([]);
-  const [pageInfo, setPageInfo] = useState<ResponsePage>({
-    pageNumber: 0,
-    totalPages: 0,
-    firstPage: true,
-    lastPage: true,
+  const [response, setResponse] = useState<AppResponse>({
+    items: [],
+    pageInfo: {
+      pageNumber: 0,
+      totalPages: 0,
+      firstPage: true,
+      lastPage: true,
+    },
+    category: '',
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleItems = (
-    items: ResponseItem[],
-    pageInfo: ResponsePage,
-    isLoading: boolean
-  ) => {
-    setItems(items); // useEffect
+  const handleItems = (response: AppResponse, isLoading: boolean) => {
+    setResponse(response);
     setIsLoading(isLoading);
-    setPageInfo(pageInfo);
   };
 
   useEffect(() => {
@@ -37,15 +37,18 @@ export const HomePage = (): JSX.Element => {
         navigate('/');
       }
     });
-    const lastSearch = localStorage.getItem(LOCAL_STORAGE.lastSearch);
+    const lastSearch = localStorage.getItem(LOCAL_STORAGE.lastCategory);
     if (lastSearch) {
+      setSearchParams({ pageNumber: '0' });
       const loadItems = async (): Promise<void> => {
         setIsLoading(true);
         await getItems({
           listName: lastSearch,
-          pageNumber: 0,
+          params: searchParams,
         })
-          .then((items) => handleItems(items.items, items.pageInfo, false))
+          .then((response) => {
+            handleItems(response, false);
+          })
           .finally(() => setIsLoading(false));
       };
       loadItems();
@@ -63,14 +66,15 @@ export const HomePage = (): JSX.Element => {
           ></TopControls>
           <Results
             className="block block-results"
-            items={items}
-            pageInfo={pageInfo}
+            response={response}
             isLoading={isLoading}
           ></Results>
           <Outlet></Outlet>
 
           <ErrorButton></ErrorButton>
         </main>
+        <Flyout></Flyout>
+
         <Footer></Footer>
       </ErrorBoundary>
     </>
