@@ -1,5 +1,5 @@
 import { useEffect, useState, type JSX, type ReactNode } from 'react';
-import type { ResponseItem, ResponsePage } from '../../api/interfaces/Response';
+import type { AppResponse, ResponseItem } from '../../api/interfaces/Response';
 import { Loader } from '../../components/Loader';
 import { Pagination } from '../../components/Pagination';
 import { getItems } from '../../api/getItems';
@@ -9,15 +9,14 @@ import { Card } from './card/Card';
 
 type ResultListProps = {
   children: ReactNode;
-  items: ResponseItem[];
+  response: AppResponse;
   shouldThrowError: boolean;
-  pageInfo: ResponsePage;
   isLoading: boolean;
 };
 
 export const ResultList = (props: ResultListProps): JSX.Element => {
-  const [items, setItems] = useState(props.items);
-  const [pageInfo, setPageInfo] = useState(props.pageInfo);
+  const [items, setItems] = useState(props.response.items);
+  const [pageInfo, setPageInfo] = useState(props.response.pageInfo);
   const [shouldThrowError, setShouldThrowError] = useState(
     props.shouldThrowError
   );
@@ -26,14 +25,19 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
 
   useEffect(() => {
     const loadData = async (): Promise<void> => {
-      setItems(props.items);
-      setPageInfo(props.pageInfo);
+      setItems(props.response.items);
+      setPageInfo(props.response.pageInfo);
       setShouldThrowError(props.shouldThrowError);
       setIsLoading(props.isLoading);
     };
 
     loadData();
-  }, [props.items, props.pageInfo, props.shouldThrowError, props.isLoading]);
+  }, [
+    props.response.items,
+    props.response.pageInfo,
+    props.shouldThrowError,
+    props.isLoading,
+  ]);
 
   const increasePageNumber = (): void => {
     const nextPage = pageInfo.pageNumber + 1;
@@ -61,7 +65,7 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
     setShouldThrowError(false);
 
     getItems({
-      listName: localStorage.getItem(LOCAL_STORAGE.lastSearch) ?? '',
+      listName: localStorage.getItem(LOCAL_STORAGE.lastCategory) ?? '',
       params: new URLSearchParams({ pageNumber: pageNumber.toString() }),
     })
       .then((response) => {
@@ -89,7 +93,7 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
   }
 
   const handleItemOnclick = (item: ResponseItem) => {
-    navigate(`details/${item.name}/${item.description}`);
+    navigate(`details/${props.response.category}/${item.uid}`);
   };
 
   return (
@@ -110,7 +114,13 @@ export const ResultList = (props: ResultListProps): JSX.Element => {
         <div className="list-item-description title">Description</div>
       </li>
       {items.map((item, index) => (
-        <Card key={index} item={item} onclickItem={handleItemOnclick}></Card>
+        <Card
+          key={index}
+          index={index}
+          item={item}
+          onclickItem={handleItemOnclick}
+          category={props.response.category ?? ''}
+        ></Card>
       ))}
     </ul>
   );

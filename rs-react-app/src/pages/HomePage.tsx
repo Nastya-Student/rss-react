@@ -1,5 +1,5 @@
 import { useEffect, useState, type JSX } from 'react';
-import type { ResponseItem, ResponsePage } from '../api/interfaces/Response';
+import type { AppResponse } from '../api/interfaces/Response';
 import { getItems } from '../api/getItems';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { Header } from '../components/Header';
@@ -12,25 +12,23 @@ import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { Flyout } from '../features/flyout/Flyout';
 
 export const HomePage = (): JSX.Element => {
-  const [items, setItems] = useState<ResponseItem[]>([]);
-  const [pageInfo, setPageInfo] = useState<ResponsePage>({
-    pageNumber: 0,
-    totalPages: 0,
-    firstPage: true,
-    lastPage: true,
+  const [response, setResponse] = useState<AppResponse>({
+    items: [],
+    pageInfo: {
+      pageNumber: 0,
+      totalPages: 0,
+      firstPage: true,
+      lastPage: true,
+    },
+    category: '',
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleItems = (
-    items: ResponseItem[],
-    pageInfo: ResponsePage,
-    isLoading: boolean
-  ) => {
-    setItems(items);
+  const handleItems = (response: AppResponse, isLoading: boolean) => {
+    setResponse(response);
     setIsLoading(isLoading);
-    setPageInfo(pageInfo);
   };
 
   useEffect(() => {
@@ -39,7 +37,7 @@ export const HomePage = (): JSX.Element => {
         navigate('/');
       }
     });
-    const lastSearch = localStorage.getItem(LOCAL_STORAGE.lastSearch);
+    const lastSearch = localStorage.getItem(LOCAL_STORAGE.lastCategory);
     if (lastSearch) {
       setSearchParams({ pageNumber: '0' });
       const loadItems = async (): Promise<void> => {
@@ -48,12 +46,14 @@ export const HomePage = (): JSX.Element => {
           listName: lastSearch,
           params: searchParams,
         })
-          .then((items) => handleItems(items.items, items.pageInfo, false))
+          .then((response) => {
+            handleItems(response, false);
+          })
           .finally(() => setIsLoading(false));
       };
       loadItems();
     }
-  }, [navigate, searchParams, setSearchParams]);
+  }, []);
 
   return (
     <>
@@ -66,8 +66,7 @@ export const HomePage = (): JSX.Element => {
           ></TopControls>
           <Results
             className="block block-results"
-            items={items}
-            pageInfo={pageInfo}
+            response={response}
             isLoading={isLoading}
           ></Results>
           <Outlet></Outlet>

@@ -1,28 +1,25 @@
 import { type JSX } from 'react';
 import type { ResponseItem } from '../../../api/interfaces/Response';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import {
-  select,
-  selectFlyoutItemsIds,
-  unselect,
-} from '../../flyout/flyoutSlice';
+import { useAppSelector } from '../../../store/hooks';
+import { selectFlyoutItemsIds } from '../../flyout/flyout.selectors';
+import { CheckboxInput } from './CheckboxInput';
 
 type CardProps = {
   key: number;
+  index: number;
   item: ResponseItem;
   onclickItem: (item: ResponseItem) => void;
+  category: string;
 };
 
 export const Card = (props: CardProps): JSX.Element => {
-  const dispatch = useAppDispatch();
-
   const isMarked = useAppSelector(selectFlyoutItemsIds).includes(
     props.item.uid
   );
 
   return (
     <li
-      key={props.key}
+      key={props.index}
       className="list-item"
       onClick={() => props.onclickItem(props.item)}
     >
@@ -34,19 +31,7 @@ export const Card = (props: CardProps): JSX.Element => {
           </div>
         ))}
       </div>
-      <input
-        type="checkbox"
-        checked={isMarked}
-        className="favorite-checkbox"
-        onClick={(e) => {
-          e.stopPropagation();
-          if (!isMarked) {
-            dispatch(select(props.item));
-          } else {
-            dispatch(unselect(props.item.uid));
-          }
-        }}
-      ></input>
+      <CheckboxInput isMarked={isMarked} item={props.item}></CheckboxInput>
     </li>
   );
 };

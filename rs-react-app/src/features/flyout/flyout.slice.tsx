@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { ResponseItem } from '../../api/interfaces/Response';
-import type { RootState } from '../../app/store';
 
 export interface FlyoutState {
   selectedItems: ResponseItem[];
@@ -33,12 +32,3 @@ export const flyoutSlice = createSlice({
 export const { select, unselect, unselectAll } = flyoutSlice.actions;
 
 export default flyoutSlice.reducer;
-
-export const selectItemsLength = (state: RootState) =>
-  state.selectedItems.selectedItems.length;
-
-export const selectFlyoutItems = (state: RootState) =>
-  state.selectedItems.selectedItems;
-
-export const selectFlyoutItemsIds = (state: RootState) =>
-  state.selectedItems.selectedItems.map((item) => item.uid);

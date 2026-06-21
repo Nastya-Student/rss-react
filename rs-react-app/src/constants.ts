@@ -1,7 +1,8 @@
 export const BASE_URL = 'https://stapi.co/api/v1/rest/';
 
 export const LOCAL_STORAGE = {
-  lastSearch: 'last-search',
+  lastCategory: 'last-category',
+  lastName: 'last-name',
 };
 
 export const ITEMS = {

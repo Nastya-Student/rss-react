@@ -1,6 +1,6 @@
 import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
-import flyoutReducer from '../features/flyout/flyoutSlice';
+import flyoutReducer from '../features/flyout/flyout.slice';
 
 export const store = configureStore({
   reducer: {

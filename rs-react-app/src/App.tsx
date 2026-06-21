@@ -5,7 +5,7 @@ import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ErrorPage } from './pages/ErrorPage';
 import { ErrorBoundary } from './ErrorBoundary';
-import { Details } from './components/Details';
+import { Details } from './features/Details';
 
 export const App = (): JSX.Element => {
   return (
@@ -21,7 +21,7 @@ export const App = (): JSX.Element => {
             }
           ></Route>
           <Route
-            path="details/:name/:description"
+            path="details/:category/:uid"
             element={<Details></Details>}
           ></Route>
         </Route>

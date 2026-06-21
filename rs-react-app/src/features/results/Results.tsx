@@ -1,12 +1,11 @@
 import { ResultList } from './ResultsList';
-import type { ResponseItem, ResponsePage } from '../../api/interfaces/Response';
+import type { AppResponse } from '../../api/interfaces/Response';
 import { ErrorBoundary } from '../../ErrorBoundary';
 import type { JSX } from 'react';
 
 type ResultsProps = {
   className: string;
-  items: ResponseItem[];
-  pageInfo: ResponsePage;
+  response: AppResponse;
   isLoading: boolean;
 };
 
@@ -15,9 +14,8 @@ export const Results = (props: ResultsProps): JSX.Element => {
     <div className={props.className}>
       <ErrorBoundary message="No items was found. Please, choose something from the list.">
         <ResultList
-          items={props.items}
-          shouldThrowError={props.items.length === 0}
-          pageInfo={props.pageInfo}
+          response={props.response}
+          shouldThrowError={props.response.items.length === 0}
           isLoading={props.isLoading}
         >
           Results
