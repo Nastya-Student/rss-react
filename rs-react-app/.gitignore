@@ -25,3 +25,8 @@ dist-ssr
 .vercel
 .env*.local
 coverage
+
+# ...
+.next
+next-env.d.ts
+dist

@@ -7,11 +7,12 @@ import { ErrorPage } from './pages/ErrorPage';
 import { ErrorBoundary } from './ErrorBoundary';
 import { Details } from './features/Details';
 
+
 export const App = (): JSX.Element => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<HomePage></HomePage>}>
+        <Route path='/'  element={<HomePage></HomePage>}>
           <Route
             index
             element={
@@ -31,3 +32,5 @@ export const App = (): JSX.Element => {
     </BrowserRouter>
   );
 };
+
+export default App;
